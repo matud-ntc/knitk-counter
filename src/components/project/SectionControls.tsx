@@ -36,11 +36,12 @@ export default function SectionClientControls({
       <div className="flex items-center gap-6">
         <button
           onClick={() =>
-            handle(() => removeStitch(sectionId, revalidatePath), () =>
-              setLocalStitch((n) => Math.max(0, n - 1))
+            handle(
+              () => removeStitch(sectionId, revalidatePath),
+              () => setLocalStitch((n) => Math.max(0, n - 1)),
             )
           }
-  className="bg-gray-200 hover:bg-gray-300 text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-inner transition"
+          className="bg-gray-200 hover:bg-gray-300 text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-inner transition"
         >
           −
         </button>
@@ -60,8 +61,9 @@ export default function SectionClientControls({
 
         <button
           onClick={() =>
-            handle(() => addStitch(sectionId, revalidatePath), () =>
-              setLocalStitch((n) => n + 1)
+            handle(
+              () => addStitch(sectionId, revalidatePath),
+              () => setLocalStitch((n) => n + 1),
             )
           }
           className="bg-pink-500 hover:bg-pink-600 text-white text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-md"

@@ -25,18 +25,25 @@ export default async function Page(props: any) {
   if (!section) return notFound();
 
   return (
-    <main className="p-4 max-w-md mx-auto space-y-6">
-      <h1 className="text-3xl font-bold text-center text-pink-600 mb-2">
-        {project.name}
-      </h1>
+    <main className="flex flex-col min-h-screen px-4 pb-6 max-w-md mx-auto">
+      <header className="pt-6 pb-4">
+        <h1 className="text-3xl font-bold text-center text-pink-600">
+          {project.name}
+        </h1>
+        <SectionSelector sections={project.sections} currentId={section.id} />
+      </header>
 
-      <SectionSelector sections={project.sections} currentId={section.id} />
-      <SectionProgress section={section} />
-      <SectionClientControls
-        sectionId={section.id}
-        revalidatePath={`/project/${params.id}`}
-        initialStitchCount={section.completedStitches}
-      />
+      <div className="flex-grow flex flex-col justify-center">
+        <SectionClientControls
+          sectionId={section.id}
+          revalidatePath={`/project/${params.id}`}
+          initialStitchCount={section.completedStitches}
+        />
+      </div>
+
+      <footer className="mt-auto pt-4">
+        <SectionProgress section={section} />
+      </footer>
     </main>
   );
 }

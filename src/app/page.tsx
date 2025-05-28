@@ -8,7 +8,9 @@ export default async function HomePage() {
   if (!session?.user) {
     return (
       <main className="px-4 py-8 max-w-md mx-auto text-center">
-        <h1 className="text-3xl font-bold text-pink-600 mb-6">🧶 Knitk Counter</h1>
+        <h1 className="text-3xl font-bold text-pink-600 mb-6">
+          🧶 Knitk Counter
+        </h1>
         <a
           href="/api/auth/signin"
           className="bg-pink-500 text-white py-3 px-6 rounded-xl hover:bg-pink-600 inline-block"
@@ -43,13 +45,14 @@ export default async function HomePage() {
           {projects.map((project) => {
             const total = project.sections.reduce(
               (acc, s) => acc + (s.totalRows ?? 0),
-              0
+              0,
             );
             const completed = project.sections.reduce(
               (acc, s) => acc + s.completedRows,
-              0
+              0,
             );
-            const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+            const progress =
+              total > 0 ? Math.round((completed / total) * 100) : 0;
 
             return (
               <li key={project.id}>
@@ -64,7 +67,9 @@ export default async function HomePage() {
                         style={{ width: `${progress}%` }}
                       />
                     </div>
-                    <div className="text-sm text-gray-600">{progress}% completado</div>
+                    <div className="text-sm text-gray-600">
+                      {progress}% completado
+                    </div>
                   </div>
                 </Link>
               </li>
