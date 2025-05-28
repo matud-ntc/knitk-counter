@@ -3,6 +3,8 @@ import SectionSelector from "@/components/project/SectionSelector";
 import SectionProgress from "@/components/project/SectionProgress";
 import SectionClientControls from "@/components/project/SectionClientControls";
 import { notFound } from "next/navigation";
+import { finishProject } from "@/lib/actions/projectActions";
+import Button from "@/components/ui/Button";
 
 export default async function Page(props: any) {
   const { params, searchParams } = props;
@@ -26,23 +28,36 @@ export default async function Page(props: any) {
 
   return (
     <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
-  <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">{project.name}</h1>
+      <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">{project.name}</h1>
 
-  <SectionSelector sections={project.sections} currentId={section.id} />
+      <SectionSelector sections={project.sections} currentId={section.id} />
 
-  {/* 👇 PROGRESO ARRIBA del contador */}
-  <div className="mt-10 mb-10">
-    <SectionProgress section={section} />
-  </div>
+      <div className="mt-10 mb-10">
+        <SectionProgress section={section} />
+      </div>
 
-  <div className="flex-grow flex flex-col justify-center">
-    <SectionClientControls
-      sectionId={section.id}
-      revalidatePath={`/project/${params.id}`}
-      initialRowCount={section.completedRows}
-    />
-  </div>
-</main>
+      <div className="flex-grow flex flex-col justify-center">
+        <SectionClientControls
+          sectionId={section.id}
+          revalidatePath={`/project/${params.id}`}
+          initialRowCount={section.completedRows}
+        />
+      </div>
 
+      {!project.isFinished && (
+        <form
+  action={async () => {
+    "use server";
+    await finishProject(project.id, "/");
+  }}
+  className="mt-10"
+>
+  <Button variant="secondary" className="w-full">
+    Finalizar proyecto
+  </Button>
+</form>
+
+      )}
+    </main>
   );
 }

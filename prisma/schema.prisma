@@ -62,13 +62,14 @@ model VerificationToken {
 }
 
 model Project {
-  id        String   @id @default(cuid())
-  name      String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sections  Section[]
+  id          String   @id @default(cuid())
+  name        String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isFinished  Boolean  @default(false)
+  sections    Section[]
 }
 
 model Section {
@@ -81,4 +82,3 @@ model Section {
   projectId     String
   project       Project  @relation(fields: [projectId], references: [id])
 }
-
