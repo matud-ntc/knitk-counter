@@ -31,7 +31,6 @@ export async function createProjectWithSections(formData: FormData) {
           {
             name: sectionName,
             totalRows,
-            totalStitches,
             isFreeform,
             order: 0,
           },
