@@ -4,13 +4,12 @@ import SectionProgress from "@/components/project/SectionProgress";
 import SectionClientControls from "@/components/project/SectionClientControls";
 import { notFound } from "next/navigation";
 
-export default async function ProjectPage({
-  params,
-  searchParams,
-}: {
+interface PageProps {
   params: { id: string };
   searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+}
+
+export default async function ProjectPage({ params, searchParams }: PageProps) {
   const project = await prisma.project.findUnique({
     where: { id: params.id },
     include: { sections: true },
