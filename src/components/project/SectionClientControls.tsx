@@ -1,8 +1,8 @@
 "use client";
 
-import { addRow, removeRow } from "@/lib/actions/sectionActions";
-import { useTransition, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { motion } from "framer-motion";
+import { addRow, removeRow } from "@/lib/actions/sectionActions";
 
 type Props = {
   sectionId: string;
@@ -17,6 +17,11 @@ export default function SectionClientControls({
 }: Props) {
   const [isPending, startTransition] = useTransition();
   const [localRow, setLocalRow] = useState(initialRowCount);
+
+  // 🔁 Sync localRow when sectionId or initialRowCount changes
+  useEffect(() => {
+    setLocalRow(initialRowCount);
+  }, [sectionId, initialRowCount]);
 
   const handle = (action: () => Promise<void>, update?: () => void) => {
     startTransition(() => {
