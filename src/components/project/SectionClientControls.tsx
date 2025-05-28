@@ -40,7 +40,7 @@ export default function SectionClientControls({
               setLocalRow((n) => Math.max(0, n - 1))
             )
           }
-          className="bg-gray-200 hover:bg-gray-300 text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-md"
+          className="bg-gray-200 hover:bg-gray-300 text-5xl w-20 h-20 rounded-full flex items-center justify-center shadow-md"
         >
           −
         </button>
@@ -64,7 +64,7 @@ export default function SectionClientControls({
               setLocalRow((n) => n + 1)
             )
           }
-          className="bg-pink-500 hover:bg-pink-600 text-white text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-md"
+          className="bg-pink-500 hover:bg-pink-600 text-white text-5xl w-20 h-20 rounded-full flex items-center justify-center shadow-md"
         >
           +
         </button>
