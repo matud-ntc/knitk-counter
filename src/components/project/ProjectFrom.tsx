@@ -9,7 +9,6 @@ import Button from "../ui/Button";
 type SectionInput = {
   name: string;
   totalRows?: number;
-  totalStitches?: number;
   isFreeform: boolean;
 };
 
@@ -25,7 +24,7 @@ export default function ProjectForm() {
     value: string | boolean
   ) => {
     const copy = [...sections];
-    if (key === "totalRows" || key === "totalStitches") {
+    if (key === "totalRows") {
       copy[index][key] = value === "" ? undefined : Number(value);
     } else {
       copy[index][key] = value as never;

@@ -23,7 +23,6 @@ export async function POST(req: Request) {
         create: sections.map((s: any, i: number) => ({
           name: s.name,
           totalRows: s.totalRows ?? null,
-          totalStitches: s.totalStitches ?? null,
           isFreeform: s.isFreeform,
           order: i,
         })),

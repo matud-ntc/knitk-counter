@@ -36,12 +36,6 @@ export default function SectionInput({
         value={data.totalRows ?? ""}
         onChange={(e) => onChange(index, "totalRows", e.target.value)}
       />
-      <Input
-        type="number"
-        placeholder="Puntos (opcional)"
-        value={data.totalStitches ?? ""}
-        onChange={(e) => onChange(index, "totalStitches", e.target.value)}
-      />
       <label className="text-sm">
         <input
           type="checkbox"
@@ -51,15 +45,18 @@ export default function SectionInput({
         />
         Sección libre
       </label>
+
       {onRemove && (
-        <Button
-          type="button"
-          onClick={onRemove}
-          variant="danger"
-          className="text-sm underline"
-        >
-          Eliminar sección
-        </Button>
+        <div className="pt-2">
+          <Button
+            type="button"
+            onClick={onRemove}
+            variant="secondary"
+            className="text-sm text-gray-500 underline hover:text-pink-500"
+          >
+            Eliminar sección
+          </Button>
+        </div>
       )}
     </div>
   );
