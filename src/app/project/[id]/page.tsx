@@ -4,12 +4,21 @@ import SectionProgress from "@/components/project/SectionProgress";
 import SectionClientControls from "@/components/project/SectionClientControls";
 import { notFound } from "next/navigation";
 
-interface PageProps {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+// Add this to help Next.js understand your dynamic route
+export async function generateStaticParams() {
+  const projects = await prisma.project.findMany({
+    select: { id: true }
+  });
+  return projects.map((project) => ({ id: project.id }));
 }
 
-export default async function ProjectPage({ params, searchParams }: PageProps) {
+// Use this type for your props
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default async function ProjectPage({ params, searchParams }: Props) {
   const project = await prisma.project.findUnique({
     where: { id: params.id },
     include: { sections: true },
