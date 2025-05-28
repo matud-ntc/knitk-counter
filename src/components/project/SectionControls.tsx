@@ -1,6 +1,5 @@
 "use client";
 
-import { addStitch, removeStitch, addRow } from "@/lib/actions/sectionActions";
 import { useTransition, useState } from "react";
 import { motion } from "framer-motion";
 
