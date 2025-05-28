@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import SectionInput from "./SectionInput";
-import Card from "../ui/Card";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 
@@ -50,7 +49,7 @@ export default function ProjectForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <Input
         type="text"
         placeholder="Nombre del proyecto"
@@ -60,14 +59,17 @@ export default function ProjectForm() {
       />
 
       {sections.map((section, i) => (
-        <Card key={i}>
+        <div key={i} className="space-y-3">
           <SectionInput
             index={i}
             data={section}
             onChange={handleChange}
             onRemove={sections.length > 1 ? () => handleRemove(i) : undefined}
           />
-        </Card>
+          {i < sections.length - 1 && (
+            <hr className="border-t border-pink-200 my-6" />
+          )}
+        </div>
       ))}
 
       <Button type="button" onClick={handleAdd} variant="secondary" className="text-sm">
