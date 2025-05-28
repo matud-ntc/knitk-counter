@@ -4,11 +4,10 @@ import { addStitch, removeStitch, addRow } from "@/lib/actions/sectionActions";
 import { useTransition, useState } from "react";
 import { motion } from "framer-motion";
 
-// 👇 ESTE tipo es clave
 type Props = {
   sectionId: string;
   revalidatePath: string;
-  initialStitchCount: number; // ← este era el que faltaba
+  initialStitchCount: number;
 };
 
 export default function SectionClientControls({
