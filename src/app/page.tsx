@@ -1,37 +1,77 @@
-import { getProjects } from "@/lib/actions";
+import { getProjectsForUser } from "@/lib/actions/projectActions";
+import { getUserSession } from "@/lib/session";
 import Link from "next/link";
 
 export default async function HomePage() {
-  const projects = await getProjects();
+  const session = await getUserSession();
+
+  if (!session?.user) {
+    return (
+      <main className="px-4 py-8 max-w-md mx-auto text-center">
+        <h1 className="text-3xl font-bold text-pink-600 mb-6">🧶 Knitk Counter</h1>
+        <a
+          href="/api/auth/signin"
+          className="bg-pink-500 text-white py-3 px-6 rounded-xl hover:bg-pink-600 inline-block"
+        >
+          Iniciar sesión con Google
+        </a>
+      </main>
+    );
+  }
+
+  const projects = await getProjectsForUser(session.user.id);
 
   return (
-    <main className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">🧶 Knitk Counter</h1>
+    <main className="px-4 py-8 max-w-md mx-auto space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-pink-600">Mis proyectos</h1>
+        <a href="/api/auth/signout" className="text-sm text-gray-600 underline">
+          Cerrar sesión
+        </a>
+      </div>
 
       <Link href="/new">
-        <button className="w-full bg-pink-400 text-white text-lg py-3 rounded-xl shadow-md mb-6 hover:bg-pink-500">
+        <button className="w-full bg-pink-500 text-white text-lg py-3 rounded-xl shadow-md hover:bg-pink-600">
           ➕ Nuevo proyecto
         </button>
       </Link>
 
-      <input
-        type="text"
-        placeholder="Buscar proyecto..."
-        className="w-full px-4 py-2 mb-4 rounded-md border border-gray-300"
-      />
+      {projects.length === 0 ? (
+        <p className="text-center text-gray-500">No tenés proyectos todavía.</p>
+      ) : (
+        <ul className="space-y-4">
+          {projects.map((project) => {
+            const total = project.sections.reduce(
+              (acc, s) => acc + (s.totalRows ?? 0),
+              0
+            );
+            const completed = project.sections.reduce(
+              (acc, s) => acc + s.completedRows,
+              0
+            );
+            const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-      <ul className="space-y-4">
-        {projects.map((project) => (
-          <li key={project.id} className="p-4 bg-white rounded-lg shadow flex flex-col">
-            <span className="font-semibold">{project.name}</span>
-            <progress
-              value={project.sections.reduce((acc, s) => acc + s.completedRows, 0)}
-              max={project.sections.reduce((acc, s) => acc + (s.totalRows ?? 0), 0)}
-              className="mt-2"
-            />
-          </li>
-        ))}
-      </ul>
+            return (
+              <li key={project.id}>
+                <Link href={`/project/${project.id}`}>
+                  <div className="p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer space-y-2">
+                    <div className="font-semibold text-lg text-gray-800">
+                      {project.name}
+                    </div>
+                    <div className="w-full h-3 bg-pink-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-pink-500 transition-all duration-300"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                    <div className="text-sm text-gray-600">{progress}% completado</div>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </main>
   );
 }
