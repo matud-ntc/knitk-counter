@@ -5,18 +5,24 @@ import SectionInput from "./SectionInput";
 import Card from "../ui/Card";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
-import { SectionInput as Section } from "@/types";
+
+type SectionInput = {
+  name: string;
+  totalRows?: number;
+  totalStitches?: number;
+  isFreeform: boolean;
+};
 
 export default function ProjectForm() {
   const [projectName, setProjectName] = useState("");
-  const [sections, setSections] = useState<Section[]>([
+  const [sections, setSections] = useState<SectionInput[]>([
     { name: "", isFreeform: false },
   ]);
 
   const handleChange = (
     index: number,
-    key: keyof Section,
-    value: string | boolean,
+    key: keyof SectionInput,
+    value: string | boolean
   ) => {
     const copy = [...sections];
     if (key === "totalRows" || key === "totalStitches") {
@@ -65,12 +71,7 @@ export default function ProjectForm() {
         </Card>
       ))}
 
-      <Button
-        type="button"
-        onClick={handleAdd}
-        variant="secondary"
-        className="text-sm"
-      >
+      <Button type="button" onClick={handleAdd} variant="secondary" className="text-sm">
         ➕ Agregar otra sección
       </Button>
 
