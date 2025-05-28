@@ -23,7 +23,7 @@ export default function SectionSelect({ options, currentId }: Props) {
   const handleChange = (newValue: SectionOption) => {
     const url = new URL(window.location.href);
     url.searchParams.set("section", newValue.id);
-    router.push(url.toString());
+    router.replace(url.toString());
   };
 
   return (
