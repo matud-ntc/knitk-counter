@@ -1,3 +1,4 @@
+// src/app/project/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import SectionSelector from "@/components/project/SectionSelector";
 import SectionProgress from "@/components/project/SectionProgress";
@@ -5,6 +6,7 @@ import SectionClientControls from "@/components/project/SectionClientControls";
 import { notFound } from "next/navigation";
 import { finishProject } from "@/lib/actions/projectActions";
 import Button from "@/components/ui/Button";
+import ThemeHydration from "@/components/ui/ThemeHydration"; // 👈 Importante
 
 export default async function Page(props: any) {
   const { params, searchParams } = props;
@@ -28,7 +30,9 @@ export default async function Page(props: any) {
 
   return (
     <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
-      <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">
+      <ThemeHydration /> {/* 👈 Aplica el tema en el cliente */}
+
+      <h1 className="text-3xl font-bold text-center text-[var(--color-primary)] mb-4">
         {project.name}
       </h1>
 
@@ -36,7 +40,7 @@ export default async function Page(props: any) {
         projectId={project.id}
         sections={project.sections.map((s) => ({
           ...s,
-          totalRows: s.totalRows ?? undefined, // 👈 transforma null en undefined
+          totalRows: s.totalRows ?? undefined,
         }))}
         currentId={section.id}
       />

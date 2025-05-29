@@ -3,6 +3,7 @@
 import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { useRouter, useSearchParams } from "next/navigation";
+import clsx from "clsx";
 
 export type SectionOption = {
   id: string;
@@ -44,9 +45,13 @@ export default function SectionSelect({ options, currentId }: Props) {
             <Listbox.Option key={option.id} value={option} as="li">
               {({ active, selected }) => (
                 <div
-                  className={`relative cursor-pointer select-none py-3 px-4 ${
-                    active ? "bg-pink-50" : ""
-                  } $${selected ? "font-bold text-[var(--color-primary)]" : "text-gray-800"}`}
+                  className={clsx(
+                    "relative cursor-pointer select-none py-3 px-4",
+                    active && "bg-[var(--color-primary-hover)]/10",
+                    selected
+                      ? "font-bold text-[var(--color-primary)]"
+                      : "text-gray-800"
+                  )}
                 >
                   <span className="block truncate">{option.name}</span>
                   {selected && (

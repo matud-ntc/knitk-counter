@@ -24,11 +24,7 @@ export async function finishProject(projectId: string, path: string) {
 }
 
 // Crear una nueva sección
-export async function addSection(
-  projectId: string,
-  name: string,
-  totalRows?: number,
-) {
+export async function addSection(projectId: string, name: string, totalRows?: number) {
   const count = await prisma.section.count({
     where: { projectId },
   });
@@ -46,11 +42,7 @@ export async function addSection(
 }
 
 // Editar una sección existente
-export async function editSection(
-  sectionId: string,
-  name: string,
-  totalRows?: number,
-) {
+export async function editSection(sectionId: string, name: string, totalRows?: number) {
   const section = await prisma.section.update({
     where: { id: sectionId },
     data: {

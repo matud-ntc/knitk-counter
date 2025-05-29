@@ -1,9 +1,8 @@
-// components/ui/ThemeSettingsModal.tsx
 "use client";
 
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const THEMES = [
   { label: "🧡 Salmón", value: "theme-salmon" },
@@ -20,18 +19,19 @@ export default function ThemeSettingsModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const [selected, setSelected] = useState<string>("");
+  const [selected, setSelected] = useState(THEMES[0]);
 
   useEffect(() => {
     const stored = localStorage.getItem("theme") || "theme-salmon";
-    setSelected(stored);
+    const match = THEMES.find((t) => t.value === stored) || THEMES[0];
+    setSelected(match);
+    document.body.className = match.value;
   }, []);
 
-  const applyTheme = (theme: string) => {
-    document.body.className = theme;
-    localStorage.setItem("theme", theme);
+  const handleChange = (theme: (typeof THEMES)[number]) => {
     setSelected(theme);
-    onClose();
+    document.body.className = theme.value;
+    localStorage.setItem("theme", theme.value);
   };
 
   return (
@@ -49,23 +49,54 @@ export default function ThemeSettingsModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-4">
-                  Ajustes de tema
+              <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-6">
+                  Ajustes
                 </Dialog.Title>
-                <div className="space-y-3">
-                  {THEMES.map((theme) => (
-                    <Button
-                      key={theme.value}
-                      onClick={() => applyTheme(theme.value)}
-                      variant={
-                        selected === theme.value ? "primary" : "secondary"
-                      }
-                      className="w-full"
-                    >
-                      {theme.label}
-                    </Button>
-                  ))}
+
+                <div className="flex items-center justify-between">
+                  <label className="text-gray-700 font-medium">Tema</label>
+
+                  <Listbox value={selected} onChange={handleChange}>
+                    <div className="relative w-48">
+                      <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white py-2 pl-4 pr-10 text-left border border-[var(--color-primary)] shadow focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition font-medium text-gray-800">
+                        <span className="block truncate">{selected.label}</span>
+                        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                          <ChevronUpDownIcon className="h-5 w-5 text-[var(--color-primary)]" />
+                        </span>
+                      </Listbox.Button>
+
+                      <Listbox.Options
+                        as="ul"
+                        className="absolute z-10 mt-2 w-full overflow-auto rounded-xl bg-white border border-[var(--color-primary)] shadow-lg max-h-60 focus:outline-none list-none p-0"
+                      >
+                        {THEMES.map((theme) => (
+                          <Listbox.Option
+                            key={theme.value}
+                            value={theme}
+                            as="li"
+                          >
+                            {({ active, selected }) => (
+                              <div
+                                className={`relative cursor-pointer select-none py-2 px-4 ${
+                                  active ? "bg-[var(--color-primary)]/10" : ""
+                                } ${selected ? "font-bold text-[var(--color-primary)]" : "text-gray-800"}`}
+                              >
+                                <span className="block truncate">
+                                  {theme.label}
+                                </span>
+                                {selected && (
+                                  <span className="absolute inset-y-0 right-4 flex items-center text-lg">
+                                    🧶
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </div>
+                  </Listbox>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

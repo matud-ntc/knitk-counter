@@ -18,7 +18,6 @@ export default function SectionClientControls({
   const [isPending, startTransition] = useTransition();
   const [localRow, setLocalRow] = useState(initialRowCount);
 
-  // 🔁 Sync localRow when sectionId or initialRowCount changes
   useEffect(() => {
     setLocalRow(initialRowCount);
   }, [sectionId, initialRowCount]);
@@ -39,14 +38,14 @@ export default function SectionClientControls({
       className="flex flex-col items-center gap-4 mt-6"
     >
       <div className="flex flex-col items-center gap-4">
-        <span className="text-sm text-gray-500">Fila actual</span>
+        <span className="text-sm text-[var(--color-foreground)]/70">Fila actual</span>
 
         <motion.span
           key={localRow}
           initial={{ scale: 0.85, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.15 }}
-          className="text-4xl font-bold text-gray-800"
+          className="text-4xl font-bold text-[var(--color-foreground)]"
         >
           {localRow}
         </motion.span>
@@ -58,7 +57,7 @@ export default function SectionClientControls({
               () => setLocalRow((n) => n + 1),
             )
           }
-          className="bg-pink-500 hover:bg-pink-600 text-white text-9xl w-35 h-35 rounded-full flex items-center justify-center shadow-md"
+          className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white text-6xl w-28 h-28 rounded-full flex items-center justify-center shadow-md"
         >
           +
         </button>

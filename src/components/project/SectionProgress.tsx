@@ -15,7 +15,7 @@ export default function SectionProgress({ section }: Props) {
 
   return (
     <div className="space-y-3 w-full">
-      <div className="text-sm">
+      <div className="text-sm text-[var(--color-foreground)]">
         <p>
           <strong>Filas:</strong>{" "}
           {section.totalRows
@@ -25,9 +25,9 @@ export default function SectionProgress({ section }: Props) {
       </div>
 
       {rowProgress !== null && (
-        <div className="w-full h-4 bg-pink-100 rounded-full overflow-hidden">
+        <div className="w-full h-4 bg-[var(--color-primary)]/20 rounded-full overflow-hidden">
           <div
-            className="h-full bg-pink-500 transition-all duration-300"
+            className="h-full bg-[var(--color-primary)] transition-all duration-300"
             style={{ width: `${rowProgress}%` }}
           />
         </div>

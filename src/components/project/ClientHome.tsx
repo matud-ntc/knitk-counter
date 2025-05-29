@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import ThemeSettingsModal from "@/components/ui/ThemeSettingsModal";
-import { Cog } from "lucide-react";
+import Button from "@/components/ui/Button";
 
 type Props = {
   projects: {
@@ -30,20 +30,9 @@ export default function ClientHome({ projects }: Props) {
         <h1 className="text-2xl font-bold text-[var(--color-primary)]">
           Mis proyectos
         </h1>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="text-gray-600 hover:text-gray-900"
-          >
-            <Cog className="w-5 h-5" />
-          </button>
-          <a
-            href="/api/auth/signout"
-            className="text-sm text-gray-600 underline"
-          >
-            Cerrar sesión
-          </a>
-        </div>
+        <a href="/api/auth/signout" className="text-sm text-gray-600 underline">
+          Cerrar sesión
+        </a>
       </div>
 
       <Link href="/new">
@@ -70,7 +59,7 @@ export default function ClientHome({ projects }: Props) {
 
             return (
               <li key={project.id}>
-                <Link href={`/project/${project.id}`}>
+              <Link href={`/project/${project.id}`}>
                   <div className="p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer space-y-2">
                     <div className="font-semibold text-lg text-gray-800">
                       {project.name}
@@ -96,6 +85,16 @@ export default function ClientHome({ projects }: Props) {
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
       />
+
+      <div className="fixed bottom-4 right-4 z-50">
+        <Button
+          type="button"
+          onClick={() => setSettingsOpen(true)}
+          variant="secondary"
+        >
+          ⚙️
+        </Button>
+      </div>
     </main>
   );
 }

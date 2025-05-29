@@ -39,8 +39,8 @@
 
 /* 🌑 Modo oscuro */
 .theme-dark {
-  --color-primary: #4b5563;           /* slate-600 */
-  --color-primary-hover: #374151;     /* slate-700 */
+  --color-primary: #4b5563; /* slate-600 */
+  --color-primary-hover: #374151; /* slate-700 */
   --background: #111827;
   --foreground: #f9fafb;
 }
