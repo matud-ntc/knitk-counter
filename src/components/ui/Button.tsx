@@ -15,7 +15,8 @@ export default function Button({
     "px-4 py-2 rounded-xl font-semibold transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-pink-500 text-white hover:bg-pink-600",
+    primary:
+      "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]",
     secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
     danger: "bg-red-500 text-white hover:bg-red-600",
   };

@@ -34,7 +34,7 @@ export default function GrowingInput({
         ref={inputRef}
         style={{ width: `${width}ch` }}
         className={clsx(
-          "block w-full bg-transparent border-0 border-b-2 border-gray-300 focus:border-pink-500 focus:outline-none text-lg font-medium transition-all duration-200",
+          "block w-full bg-transparent border-0 border-b-2 border-gray-300 focus:border-[var(--color-primary)] focus:outline-none text-lg font-medium transition-all duration-200",
           className,
         )}
         onInput={syncWidth}

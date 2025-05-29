@@ -28,3 +28,36 @@ export async function removeRow(sectionId: string, path: string) {
   });
   revalidatePath(path);
 }
+
+export async function addSection(formData: FormData) {
+  const projectId = formData.get("projectId") as string;
+  const name = formData.get("name") as string;
+  const totalRows = Number(formData.get("totalRows")) || undefined;
+
+  const count = await prisma.section.count({ where: { projectId } });
+
+  await prisma.section.create({
+    data: {
+      projectId,
+      name,
+      totalRows,
+      order: count,
+    },
+  });
+
+  revalidatePath(`/project/${projectId}`);
+}
+
+export async function editSection(formData: FormData) {
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const totalRows = Number(formData.get("totalRows")) || undefined;
+
+  const section = await prisma.section.update({
+    where: { id },
+    data: { name, totalRows },
+    include: { project: true },
+  });
+
+  revalidatePath(`/project/${section.projectId}`);
+}

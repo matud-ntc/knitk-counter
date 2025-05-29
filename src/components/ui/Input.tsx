@@ -7,7 +7,10 @@ export default function Input({ className, ...props }: Props) {
   return (
     <input
       {...props}
-      className={clsx("w-full p-2 border rounded", className)}
+      className={clsx(
+        "w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]",
+        className,
+      )}
     />
   );
 }

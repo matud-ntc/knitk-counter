@@ -32,7 +32,14 @@ export default async function Page(props: any) {
         {project.name}
       </h1>
 
-      <SectionSelector sections={project.sections} currentId={section.id} />
+      <SectionSelector
+        projectId={project.id}
+        sections={project.sections.map((s) => ({
+          ...s,
+          totalRows: s.totalRows ?? undefined, // 👈 transforma null en undefined
+        }))}
+        currentId={section.id}
+      />
 
       <div className="mt-10 mb-10">
         <SectionProgress section={section} />

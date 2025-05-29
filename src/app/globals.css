@@ -5,11 +5,51 @@
   --foreground: #171717;
   font-family: var(--font-outfit), sans-serif;
 }
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* 🎨 Tema por defecto: salmón */
+.theme-salmon {
+  --color-primary: #f97362;
+  --color-primary-hover: #f46351;
+  --background: #fff;
+  --foreground: #171717;
+}
+
+/* 🌸 Tema rosa fuerte (antes era el que llamabas salmón) */
+.theme-pink {
+  --color-primary: #ec4899;
+  --color-primary-hover: #db2777;
+  --background: #fff;
+  --foreground: #171717;
+}
+
+/* 🔵 Azul eléctrico */
+.theme-electric {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --background: #f0f9ff;
+  --foreground: #0c1e38;
+}
+
+/* 🌑 Modo oscuro */
+.theme-dark {
+  --color-primary: #4b5563;           /* slate-600 */
+  --color-primary-hover: #374151;     /* slate-700 */
+  --background: #111827;
+  --foreground: #f9fafb;
+}
+
+.theme-korean {
+  --color-primary: #b8b2a6;
+  --color-primary-hover: #a69f92;
+  --background: #f5f4f1;
+  --foreground: #2e2e2e;
 }
 
 body {
