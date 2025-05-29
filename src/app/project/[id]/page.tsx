@@ -28,7 +28,9 @@ export default async function Page(props: any) {
 
   return (
     <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
-      <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">{project.name}</h1>
+      <h1 className="text-3xl font-bold text-center text-pink-600 mb-4">
+        {project.name}
+      </h1>
 
       <SectionSelector sections={project.sections} currentId={section.id} />
 
@@ -46,17 +48,16 @@ export default async function Page(props: any) {
 
       {!project.isFinished && (
         <form
-  action={async () => {
-    "use server";
-    await finishProject(project.id, "/");
-  }}
-  className="mt-10"
->
-  <Button variant="secondary" className="w-full">
-    Finalizar proyecto
-  </Button>
-</form>
-
+          action={async () => {
+            "use server";
+            await finishProject(project.id, "/");
+          }}
+          className="mt-10"
+        >
+          <Button variant="secondary" className="w-full">
+            Finalizar proyecto
+          </Button>
+        </form>
       )}
     </main>
   );

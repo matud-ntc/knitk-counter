@@ -53,8 +53,9 @@ export default function SectionClientControls({
 
         <button
           onClick={() =>
-            handle(() => addRow(sectionId, revalidatePath), () =>
-              setLocalRow((n) => n + 1)
+            handle(
+              () => addRow(sectionId, revalidatePath),
+              () => setLocalRow((n) => n + 1),
             )
           }
           className="bg-pink-500 hover:bg-pink-600 text-white text-9xl w-35 h-35 rounded-full flex items-center justify-center shadow-md"
@@ -64,8 +65,9 @@ export default function SectionClientControls({
 
         <button
           onClick={() =>
-            handle(() => removeRow(sectionId, revalidatePath), () =>
-              setLocalRow((n) => Math.max(0, n - 1))
+            handle(
+              () => removeRow(sectionId, revalidatePath),
+              () => setLocalRow((n) => Math.max(0, n - 1)),
             )
           }
           className="bg-gray-200 hover:bg-gray-300 text-2xl w-10 h-10 rounded-full flex items-center justify-center shadow-md"

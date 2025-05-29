@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SectionInput from "./SectionInput";
-import Input from "../ui/Input";
+import GrowingInput from "../ui/GrowingInput";
 import Button from "../ui/Button";
 
 type SectionInput = {
@@ -20,7 +20,7 @@ export default function ProjectForm() {
   const handleChange = (
     index: number,
     key: keyof SectionInput,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     const copy = [...sections];
     if (key === "totalRows") {
@@ -49,36 +49,53 @@ export default function ProjectForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <Input
-        type="text"
-        placeholder="Nombre del proyecto"
-        value={projectName}
-        onChange={(e) => setProjectName(e.target.value)}
-        required
-      />
+    <div className="pb-40 relative px-4 py-6">
+      <form onSubmit={handleSubmit} className="space-y-10" id="project-form">
+        {/* Nombre del proyecto */}
+        <GrowingInput
+          type="text"
+          placeholder="Nombre del proyecto"
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          required
+        />
 
-      {sections.map((section, i) => (
-        <div key={i} className="space-y-3">
-          <SectionInput
-            index={i}
-            data={section}
-            onChange={handleChange}
-            onRemove={sections.length > 1 ? () => handleRemove(i) : undefined}
-          />
-          {i < sections.length - 1 && (
-            <hr className="border-t border-pink-200 my-6" />
-          )}
-        </div>
-      ))}
+        {/* Secciones */}
+        {sections.map((section, i) => (
+          <div key={i} className="space-y-6">
+            <SectionInput
+              index={i}
+              data={section}
+              onChange={handleChange}
+              onRemove={sections.length > 1 ? () => handleRemove(i) : undefined}
+            />
+            {i < sections.length - 1 && (
+              <hr className="border-t border-pink-200 my-8" />
+            )}
+          </div>
+        ))}
 
-      <Button type="button" onClick={handleAdd} variant="secondary" className="text-sm">
-        ➕ Agregar otra sección
-      </Button>
+        {/* Agregar sección */}
+        <Button
+          type="button"
+          onClick={handleAdd}
+          variant="secondary"
+          className="text-sm"
+        >
+          ➕ Agregar otra sección
+        </Button>
+      </form>
 
-      <Button type="submit" className="w-full mt-4">
-        Crear proyecto
-      </Button>
-    </form>
+      {/* Botón fijo */}
+      <div className="fixed bottom-4 left-0 w-full flex justify-center pointer-events-none">
+        <Button
+          type="submit"
+          form="project-form"
+          className="w-60 pointer-events-auto"
+        >
+          Crear proyecto
+        </Button>
+      </div>
+    </div>
   );
 }

@@ -12,7 +12,7 @@ export default function Button({
   ...props
 }: Props) {
   const base =
-    "px-4 py-2 rounded font-semibold transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed";
+    "px-4 py-2 rounded-xl font-semibold transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
     primary: "bg-pink-500 text-white hover:bg-pink-600",
