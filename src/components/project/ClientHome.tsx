@@ -22,6 +22,12 @@ export default function ClientHome({ projects }: Props) {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "theme-salmon";
     document.body.className = storedTheme;
+
+    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
+    const metaTag = document.querySelector("meta[name='theme-color']");
+    if (metaTag && color) {
+      metaTag.setAttribute("content", color);
+    }
   }, []);
 
   return (
@@ -59,7 +65,7 @@ export default function ClientHome({ projects }: Props) {
 
             return (
               <li key={project.id}>
-              <Link href={`/project/${project.id}`}>
+                <Link href={`/project/${project.id}`}>
                   <div className="p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer space-y-2">
                     <div className="font-semibold text-lg text-gray-800">
                       {project.name}

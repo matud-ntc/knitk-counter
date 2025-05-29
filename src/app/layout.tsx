@@ -27,10 +27,9 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta id="theme-color" name="theme-color" content="#f97362" />
       </head>
-      <body
-        className={`${outfit.variable} font-sans antialiased bg-[#fefefe] text-[#111]`}
-      >
+      <body className={`${outfit.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
