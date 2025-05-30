@@ -61,3 +61,12 @@ export async function editSection(formData: FormData) {
 
   revalidatePath(`/project/${section.projectId}`);
 }
+
+export async function resetRow(sectionId: string, path: string) {
+  await prisma.section.update({
+    where: { id: sectionId },
+    data: { completedRows: 0 },
+  });
+
+  revalidatePath(path);
+}

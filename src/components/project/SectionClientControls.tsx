@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { motion } from "framer-motion";
-import { addRow, removeRow } from "@/lib/actions/sectionActions";
+import { addRow, removeRow, resetRow } from "@/lib/actions/sectionActions";
+import Button from "@/components/ui/Button";
 
 type Props = {
   sectionId: string;
@@ -76,6 +77,19 @@ export default function SectionClientControls({
           −
         </button>
       </div>
+      <Button
+        variant="outline"
+        circle
+        title="Reiniciar sección"
+        onClick={() =>
+          handle(
+            () => resetRow(sectionId, revalidatePath),
+            () => setLocalRow(0),
+          )
+        }
+      >
+        ↺
+      </Button>
     </motion.div>
   );
 }
