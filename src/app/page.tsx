@@ -1,4 +1,4 @@
-import { getProjectsForUser } from "@/lib/actions/projectActions";
+import { getAllProjectsForUser, getProjectsForUser } from "@/lib/actions/projectActions";
 import { getUserSession } from "@/lib/session";
 import ClientHome from "@/components/project/ClientHome";
 
@@ -21,7 +21,8 @@ export default async function HomePage() {
     );
   }
 
-  const projects = await getProjectsForUser(session.user.id);
+  const allProjects = await getAllProjectsForUser(session.user.id);
+const active = allProjects.filter((p) => !p.isFinished);
 
-  return <ClientHome projects={projects} />;
+  return <ClientHome projects={active} showCompleted={false} />
 }

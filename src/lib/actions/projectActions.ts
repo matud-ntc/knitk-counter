@@ -70,3 +70,22 @@ export async function editProjectName(projectId: string, newName: string) {
   });
   revalidatePath(`/project/${projectId}`);
 }
+
+export async function getFinishedProjects(userId: string) {
+  return prisma.project.findMany({
+    where: {
+      userId,
+      isFinished: true,
+    },
+    include: { sections: true },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export async function getAllProjectsForUser(userId: string) {
+  return prisma.project.findMany({
+    where: { userId },
+    include: { sections: true },
+    orderBy: { createdAt: "desc" },
+  });
+}
