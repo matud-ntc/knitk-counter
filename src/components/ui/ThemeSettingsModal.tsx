@@ -11,6 +11,7 @@ const THEMES = [
   { label: "🌑 Modo oscuro", value: "theme-dark" },
   { label: "🧊 Korean", value: "theme-korean" },
 ];
+const VERSION = "v2.1.3";
 
 export default function ThemeSettingsModal({
   open,
@@ -119,6 +120,10 @@ export default function ThemeSettingsModal({
           </div>
         </div>
       </Dialog>
+      <span className="absolute bottom-3 right-4 text-xs text-gray-400">
+  {VERSION}
+</span>
+
     </Transition>
   );
 }
