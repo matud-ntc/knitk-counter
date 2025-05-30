@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
+const quicksand = Quicksand({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-primary",
   weight: ["400", "600", "700"],
 });
-
 export const metadata: Metadata = {
   title: "Knitk Counter",
   description: "Contador de puntos",
@@ -21,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" className={quicksand.variable}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
@@ -29,7 +28,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta id="theme-color" name="theme-color" content="#f97362" />
       </head>
-      <body className={`${outfit.variable} font-sans antialiased`}>
+      <body className={`${quicksand.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

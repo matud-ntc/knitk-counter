@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-primary), sans-serif;
 }
 
 @theme inline {
@@ -55,4 +55,82 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-primary), sans-serif;
+}
+
+/* Tema salmon */
+.theme-salmon .card-bg-0 {
+  background-color: #ffe3e0;
+}
+.theme-salmon .card-bg-1 {
+  background-color: #fff5dc;
+}
+.theme-salmon .card-bg-2 {
+  background-color: #e0f4f1;
+}
+.theme-salmon .card-bg-3 {
+  background-color: #f4e4f9;
+}
+
+/* Tema pink */
+.theme-pink .card-bg-0 {
+  background-color: #fef2f8;
+}
+.theme-pink .card-bg-1 {
+  background-color: #fddde6;
+}
+.theme-pink .card-bg-2 {
+  background-color: #fae8ff;
+}
+.theme-pink .card-bg-3 {
+  background-color: #ffe4e6;
+}
+
+/* Tema electric */
+.theme-electric .card-bg-0 {
+  background-color: #dbeafe;
+}
+.theme-electric .card-bg-1 {
+  background-color: #e0f2fe;
+}
+.theme-electric .card-bg-2 {
+  background-color: #f0f9ff;
+}
+.theme-electric .card-bg-3 {
+  background-color: #bae6fd;
+}
+
+/* Tema korean */
+.theme-korean .card-bg-0 {
+  background-color: #f2f0eb;
+}
+.theme-korean .card-bg-1 {
+  background-color: #e5e0d8;
+}
+.theme-korean .card-bg-2 {
+  background-color: #f4f1ec;
+}
+.theme-korean .card-bg-3 {
+  background-color: #d9d4ce;
+}
+
+/* Tema dark */
+.theme-dark .card-bg-0 {
+  background-color: #1e293b;
+}
+.theme-dark .card-bg-1 {
+  background-color: #334155;
+}
+.theme-dark .card-bg-2 {
+  background-color: #475569;
+}
+.theme-dark .card-bg-3 {
+  background-color: #64748b;
+}
+
+.card-bg-0,
+.card-bg-1,
+.card-bg-2,
+.card-bg-3 {
+  color: var(--color-foreground);
 }

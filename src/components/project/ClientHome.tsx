@@ -23,7 +23,9 @@ export default function ClientHome({ projects }: Props) {
     const storedTheme = localStorage.getItem("theme") || "theme-salmon";
     document.body.className = storedTheme;
 
-    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
+    const color = getComputedStyle(document.body)
+      .getPropertyValue("--color-primary")
+      .trim();
     const metaTag = document.querySelector("meta[name='theme-color']");
     if (metaTag && color) {
       metaTag.setAttribute("content", color);
@@ -50,8 +52,8 @@ export default function ClientHome({ projects }: Props) {
       {projects.length === 0 ? (
         <p className="text-center text-gray-500">No tenés proyectos todavía.</p>
       ) : (
-        <ul className="space-y-4">
-          {projects.map((project) => {
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {projects.map((project, index) => {
             const total = project.sections.reduce(
               (acc, s) => acc + (s.totalRows ?? 0),
               0,
@@ -63,20 +65,24 @@ export default function ClientHome({ projects }: Props) {
             const progress =
               total > 0 ? Math.round((completed / total) * 100) : 0;
 
+            const bgClass = `card-bg-${index % 4}`;
+
             return (
               <li key={project.id}>
                 <Link href={`/project/${project.id}`}>
-                  <div className="p-4 bg-white rounded-xl shadow hover:shadow-lg transition cursor-pointer space-y-2">
-                    <div className="font-semibold text-lg text-gray-800">
+                  <div
+                    className={`p-4 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer space-y-2 transform active:scale-95 ${bgClass}`}
+                  >
+                    <div className="font-semibold text-base text-[var(--color-foreground)] text-center truncate">
                       {project.name}
                     </div>
-                    <div className="w-full h-3 bg-[var(--color-primary)/20] rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-[var(--color-primary)/20] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[var(--color-primary)] transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-xs text-[var(--color-foreground)/70] text-center">
                       {progress}% completado
                     </div>
                   </div>

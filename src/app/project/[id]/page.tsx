@@ -31,11 +31,9 @@ export default async function Page(props: any) {
   return (
     <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
       <ThemeHydration /> {/* 👈 Aplica el tema en el cliente */}
-
       <h1 className="text-3xl font-bold text-center text-[var(--color-primary)] mb-4">
         {project.name}
       </h1>
-
       <SectionSelector
         projectId={project.id}
         sections={project.sections.map((s) => ({
@@ -44,11 +42,9 @@ export default async function Page(props: any) {
         }))}
         currentId={section.id}
       />
-
       <div className="mt-10 mb-10">
         <SectionProgress section={section} />
       </div>
-
       <div className="flex-grow flex flex-col justify-center">
         <SectionClientControls
           sectionId={section.id}
@@ -56,7 +52,6 @@ export default async function Page(props: any) {
           initialRowCount={section.completedRows}
         />
       </div>
-
       {!project.isFinished && (
         <form
           action={async () => {

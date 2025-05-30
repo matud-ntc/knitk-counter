@@ -50,7 +50,7 @@ export default function SectionSelect({ options, currentId }: Props) {
                     active && "bg-[var(--color-primary-hover)]/10",
                     selected
                       ? "font-bold text-[var(--color-primary)]"
-                      : "text-gray-800"
+                      : "text-gray-800",
                   )}
                 >
                   <span className="block truncate">{option.name}</span>

@@ -38,7 +38,9 @@ export default function SectionClientControls({
       className="flex flex-col items-center gap-4 mt-6"
     >
       <div className="flex flex-col items-center gap-4">
-        <span className="text-sm text-[var(--color-foreground)]/70">Fila actual</span>
+        <span className="text-sm text-[var(--color-foreground)]/70">
+          Fila actual
+        </span>
 
         <motion.span
           key={localRow}
