@@ -11,7 +11,8 @@ const THEMES = [
   { label: "🌑 Modo oscuro", value: "theme-dark" },
   { label: "🧊 Korean", value: "theme-korean" },
 ];
-const VERSION = "v2.1.3";
+
+const VERSION = "v2.1.4";
 
 export default function ThemeSettingsModal({
   open,
@@ -62,12 +63,12 @@ export default function ThemeSettingsModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="relative w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-6">
                   Ajustes
                 </Dialog.Title>
 
-                <div className="flex items-center justify-between">
+                <div className="flex py-4 items-center justify-between">
                   <label className="text-gray-700 font-medium">Tema</label>
 
                   <Listbox value={selected} onChange={handleChange}>
@@ -115,15 +116,14 @@ export default function ThemeSettingsModal({
                     </div>
                   </Listbox>
                 </div>
+                <span className="absolute bottom-1 right-4 text-xs text-gray-400">
+                  {VERSION}
+                </span>
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </div>
       </Dialog>
-      <span className="absolute bottom-3 right-4 text-xs text-gray-400">
-  {VERSION}
-</span>
-
     </Transition>
   );
 }
