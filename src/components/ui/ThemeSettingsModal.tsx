@@ -26,12 +26,24 @@ export default function ThemeSettingsModal({
     const match = THEMES.find((t) => t.value === stored) || THEMES[0];
     setSelected(match);
     document.body.className = match.value;
+
+    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
+    const metaTag = document.querySelector("meta[name='theme-color']");
+    if (metaTag && color) {
+      metaTag.setAttribute("content", color);
+    }
   }, []);
 
   const handleChange = (theme: (typeof THEMES)[number]) => {
     setSelected(theme);
     document.body.className = theme.value;
     localStorage.setItem("theme", theme.value);
+
+    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
+    const metaTag = document.querySelector("meta[name='theme-color']");
+    if (metaTag && color) {
+      metaTag.setAttribute("content", color);
+    }
   };
 
   return (
@@ -80,7 +92,11 @@ export default function ThemeSettingsModal({
                               <div
                                 className={`relative cursor-pointer select-none py-2 px-4 ${
                                   active ? "bg-[var(--color-primary)]/10" : ""
-                                } ${selected ? "font-bold text-[var(--color-primary)]" : "text-gray-800"}`}
+                                } ${
+                                  selected
+                                    ? "font-bold text-[var(--color-primary)]"
+                                    : "text-gray-800"
+                                }`}
                               >
                                 <span className="block truncate">
                                   {theme.label}
