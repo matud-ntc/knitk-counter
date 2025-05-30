@@ -12,7 +12,7 @@ const THEMES = [
   { label: "🧊 Korean", value: "theme-korean" },
 ];
 
-const VERSION = "v2.1.4";
+const VERSION = "v2.1.5";
 
 export default function ThemeSettingsModal({
   open,

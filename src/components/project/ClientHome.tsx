@@ -18,61 +18,71 @@ type Props = {
 
 export default function ClientHome({ projects }: Props) {
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [showCompleted, setShowCompleted] = useState(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme") || "theme-salmon";
     document.body.className = storedTheme;
 
-    const color = getComputedStyle(document.body)
-      .getPropertyValue("--color-primary")
-      .trim();
+    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
     const metaTag = document.querySelector("meta[name='theme-color']");
     if (metaTag && color) {
       metaTag.setAttribute("content", color);
     }
   }, []);
 
+  const filteredProjects = projects.filter((project) => {
+    const total = project.sections.reduce((acc, s) => acc + (s.totalRows ?? 0), 0);
+    const completed = project.sections.reduce((acc, s) => acc + s.completedRows, 0);
+    const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return showCompleted ? progress === 100 : progress < 100;
+  });
+
   return (
     <main className="px-4 py-8 max-w-md mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-[var(--color-primary)]">
-          Mis proyectos
+          {showCompleted ? "Proyectos completados" : "Mis proyectos"}
         </h1>
         <a href="/api/auth/signout" className="text-sm text-gray-600 underline">
           Cerrar sesión
         </a>
       </div>
 
-      <Link href="/new">
-        <button className="w-full bg-[var(--color-primary)] text-white text-lg py-3 rounded-xl shadow-md hover:bg-[var(--color-primary-hover)] mb-4">
-          ➕ Nuevo proyecto
-        </button>
-      </Link>
+      <div className="flex gap-3">
+  <Button
+    variant="outline"
+    onClick={() => setShowCompleted((v) => !v)}
+    className="flex-1 text-sm h-12"
+  >
+   {showCompleted ? "En curso" : "Completados"}
+  </Button>
 
-      {projects.length === 0 ? (
-        <p className="text-center text-gray-500">No tenés proyectos todavía.</p>
+  <Link href="/new" className="flex-1">
+    <Button className="w-full h-12 text-sm text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] shadow-md">
+      ➕ Nuevo
+    </Button>
+  </Link>
+</div>
+
+
+      {filteredProjects.length === 0 ? (
+        <p className="text-center text-[var(--color-foreground)/60]">
+          {showCompleted ? "No hay proyectos completados." : "No tenés proyectos en progreso."}
+        </p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {projects.map((project, index) => {
-            const total = project.sections.reduce(
-              (acc, s) => acc + (s.totalRows ?? 0),
-              0,
-            );
-            const completed = project.sections.reduce(
-              (acc, s) => acc + s.completedRows,
-              0,
-            );
-            const progress =
-              total > 0 ? Math.round((completed / total) * 100) : 0;
+          {filteredProjects.map((project, index) => {
+            const total = project.sections.reduce((acc, s) => acc + (s.totalRows ?? 0), 0);
+            const completed = project.sections.reduce((acc, s) => acc + s.completedRows, 0);
+            const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
             const bgClass = `card-bg-${index % 4}`;
 
             return (
               <li key={project.id}>
                 <Link href={`/project/${project.id}`}>
-                  <div
-                    className={`p-4 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer space-y-2 transform active:scale-95 ${bgClass}`}
-                  >
+                  <div className={`p-4 rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer space-y-2 transform active:scale-95 ${bgClass}`}>
                     <div className="font-semibold text-base text-[var(--color-foreground)] text-center truncate">
                       {project.name}
                     </div>
@@ -93,17 +103,10 @@ export default function ClientHome({ projects }: Props) {
         </ul>
       )}
 
-      <ThemeSettingsModal
-        open={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-      />
+      <ThemeSettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
       <div className="fixed bottom-4 right-4 z-50">
-        <Button
-          type="button"
-          onClick={() => setSettingsOpen(true)}
-          variant="secondary"
-        >
+        <Button type="button" onClick={() => setSettingsOpen(true)} variant="secondary">
           ⚙️
         </Button>
       </div>
