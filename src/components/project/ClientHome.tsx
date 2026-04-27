@@ -61,6 +61,12 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
         </Link>
       </div>
 
+      <Link href="/quick">
+        <Button variant="outline" className="w-full h-12 text-sm">
+          ⚡ Contador rápido
+        </Button>
+      </Link>
+
       {/* Lista de proyectos */}
       {projects.length === 0 ? (
         <p className="text-center text-[var(--color-foreground)/60]">

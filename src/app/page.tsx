@@ -7,7 +7,7 @@ export default async function HomePage() {
 
   if (!session?.user) {
     return (
-      <main className="px-4 py-8 max-w-md mx-auto text-center">
+      <main className="px-4 py-8 max-w-md mx-auto text-center space-y-4">
         <h1 className="text-3xl font-bold text-pink-600 mb-6">
           🧶 Knitk Counter
         </h1>
@@ -17,6 +17,14 @@ export default async function HomePage() {
         >
           Iniciar sesión con Google
         </a>
+        <div>
+          <a
+            href="/quick"
+            className="text-pink-500 underline text-sm"
+          >
+            ⚡ Contador rápido
+          </a>
+        </div>
       </main>
     );
   }
