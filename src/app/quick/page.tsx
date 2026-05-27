@@ -49,7 +49,7 @@ export default function QuickCounterPage() {
         <div className="w-16" />
       </div>
 
-      <div className="flex-grow flex flex-col items-center justify-center gap-6">
+      <div className="flex-grow flex flex-col items-center justify-center gap-8">
         <motion.span
           key={count}
           initial={{ scale: 0.85, opacity: 0 }}
@@ -62,26 +62,30 @@ export default function QuickCounterPage() {
 
         <button
           onClick={() => update(count + 1)}
-          className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:scale-95 text-white text-6xl w-36 h-36 rounded-full flex items-center justify-center shadow-md transition-transform select-none"
+          className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:scale-95 text-white text-6xl w-40 h-40 rounded-full flex items-center justify-center shadow-lg transition-all select-none"
         >
           +
         </button>
 
-        <button
-          onClick={() => update(Math.max(0, count - 1))}
-          className="bg-gray-200 hover:bg-gray-300 active:scale-95 text-2xl w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-transform select-none"
-        >
-          −
-        </button>
-
-        <Button
-          variant="outline"
-          circle
-          title="Reiniciar"
-          onClick={() => update(0)}
-        >
-          ↺
-        </Button>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-28 h-px bg-[var(--color-primary)]/25" />
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => update(Math.max(0, count - 1))}
+              className="bg-[var(--color-primary)]/12 hover:bg-[var(--color-primary)]/22 active:scale-95 text-[var(--color-primary)] text-2xl w-14 h-14 rounded-full flex items-center justify-center shadow-sm transition-all select-none"
+            >
+              −
+            </button>
+            <Button
+              variant="outline"
+              circle
+              title="Reiniciar"
+              onClick={() => update(0)}
+            >
+              ↺
+            </Button>
+          </div>
+        </div>
       </div>
     </main>
   );
