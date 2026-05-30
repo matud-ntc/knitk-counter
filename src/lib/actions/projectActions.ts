@@ -1,5 +1,8 @@
+"use server";
+
 import { prisma } from "../prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 // Obtener proyectos del usuario autenticado
 export async function getProjectsForUser(userId: string) {
@@ -21,6 +24,7 @@ export async function finishProject(projectId: string, path: string) {
   });
 
   revalidatePath(path);
+  redirect(path);
 }
 
 // Crear una nueva sección
@@ -88,4 +92,12 @@ export async function getAllProjectsForUser(userId: string) {
     include: { sections: true },
     orderBy: { createdAt: "desc" },
   });
+}
+
+export async function updateProjectNotes(projectId: string, notes: string) {
+  await prisma.project.update({
+    where: { id: projectId },
+    data: { notes },
+  });
+  revalidatePath(`/project/${projectId}`);
 }

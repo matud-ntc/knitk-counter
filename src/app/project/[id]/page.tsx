@@ -3,13 +3,14 @@ import { prisma } from "@/lib/prisma";
 import SectionSelector from "@/components/project/SectionSelector";
 import SectionProgress from "@/components/project/SectionProgress";
 import SectionClientControls from "@/components/project/SectionClientControls";
+import ProjectNotes from "@/components/project/ProjectNotes";
+import FinishButton from "@/components/project/FinishButton";
 import { notFound } from "next/navigation";
-import { finishProject } from "@/lib/actions/projectActions";
-import Button from "@/components/ui/Button";
-import ThemeHydration from "@/components/ui/ThemeHydration"; // 👈 Importante
+import ThemeHydration from "@/components/ui/ThemeHydration";
 
 export default async function Page(props: any) {
-  const { params, searchParams } = props;
+  const params = await props.params;
+  const searchParams = await props.searchParams;
 
   const project = await prisma.project.findUnique({
     where: { id: params.id },
@@ -28,9 +29,11 @@ export default async function Page(props: any) {
   const section = project.sections.find((s) => s.id === currentSectionId);
   if (!section) return notFound();
 
+  const revalidatePath = `/project/${params.id}`;
+
   return (
     <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
-      <ThemeHydration /> {/* 👈 Aplica el tema en el cliente */}
+      <ThemeHydration />
       <h1 className="text-3xl font-bold text-center text-[var(--color-primary)] mb-4">
         {project.name}
       </h1>
@@ -41,6 +44,7 @@ export default async function Page(props: any) {
           totalRows: s.totalRows ?? undefined,
         }))}
         currentId={section.id}
+        revalidatePath={revalidatePath}
       />
       <div className="mt-10 mb-10">
         <SectionProgress section={section} />
@@ -48,22 +52,17 @@ export default async function Page(props: any) {
       <div className="flex-grow flex flex-col justify-center">
         <SectionClientControls
           sectionId={section.id}
-          revalidatePath={`/project/${params.id}`}
+          revalidatePath={revalidatePath}
           initialRowCount={section.completedRows}
         />
       </div>
+
+      <div className="mt-12 mb-4">
+        <ProjectNotes projectId={project.id} initialNotes={project.notes} />
+      </div>
+
       {!project.isFinished && (
-        <form
-          action={async () => {
-            "use server";
-            await finishProject(project.id, "/");
-          }}
-          className="mt-10"
-        >
-          <Button variant="secondary" className="w-full">
-            Finalizar proyecto
-          </Button>
-        </form>
+        <FinishButton projectId={project.id} />
       )}
     </main>
   );

@@ -70,3 +70,8 @@ export async function resetRow(sectionId: string, path: string) {
 
   revalidatePath(path);
 }
+
+export async function deleteSection(sectionId: string, path: string) {
+  await prisma.section.delete({ where: { id: sectionId } });
+  revalidatePath(path);
+}
