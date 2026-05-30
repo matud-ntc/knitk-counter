@@ -62,7 +62,8 @@ export default function ProjectNotes({ projectId, initialNotes }: Props) {
                 value={value}
                 onChange={handleChange}
                 placeholder="Escribí tus notas del proyecto acá..."
-                className="w-full min-h-[120px] rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-3 py-2 text-sm text-[var(--color-foreground)] placeholder:text-[var(--color-foreground)]/40 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 transition"
+                className="w-full min-h-[120px] rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-3 py-2 text-base text-[var(--color-foreground)] placeholder:text-[var(--color-foreground)]/40 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 transition"
+              style={{ fontSize: "16px" }}
               />
               <div className="text-xs text-right mt-1 h-4 text-[var(--color-foreground)]/40">
                 <AnimatePresence>
