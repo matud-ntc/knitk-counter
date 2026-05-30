@@ -2,14 +2,15 @@
 
 import { useState, useRef, useTransition } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { updateProjectNotes } from "@/lib/actions/projectActions";
+import { updateSectionNotes } from "@/lib/actions/sectionActions";
 
 type Props = {
-  projectId: string;
+  sectionId: string;
+  revalidatePath: string;
   initialNotes: string;
 };
 
-export default function ProjectNotes({ projectId, initialNotes }: Props) {
+export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialNotes);
   const [saved, setSaved] = useState(false);
@@ -17,12 +18,13 @@ export default function ProjectNotes({ projectId, initialNotes }: Props) {
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+    const next = e.target.value;
+    setValue(next);
     setSaved(false);
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
       startTransition(async () => {
-        await updateProjectNotes(projectId, e.target.value);
+        await updateSectionNotes(sectionId, next, revalidatePath);
         setSaved(true);
       });
     }, 800);
@@ -61,9 +63,9 @@ export default function ProjectNotes({ projectId, initialNotes }: Props) {
               <textarea
                 value={value}
                 onChange={handleChange}
-                placeholder="Escribí tus notas del proyecto acá..."
+                placeholder="Notas de esta sección..."
                 className="w-full min-h-[120px] rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-3 py-2 text-base text-[var(--color-foreground)] placeholder:text-[var(--color-foreground)]/40 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 transition"
-              style={{ fontSize: "16px" }}
+                style={{ fontSize: "16px" }}
               />
               <div className="text-xs text-right mt-1 h-4 text-[var(--color-foreground)]/40">
                 <AnimatePresence>

@@ -94,10 +94,3 @@ export async function getAllProjectsForUser(userId: string) {
   });
 }
 
-export async function updateProjectNotes(projectId: string, notes: string) {
-  await prisma.project.update({
-    where: { id: projectId },
-    data: { notes },
-  });
-  revalidatePath(`/project/${projectId}`);
-}

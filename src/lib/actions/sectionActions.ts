@@ -75,3 +75,11 @@ export async function deleteSection(sectionId: string, path: string) {
   await prisma.section.delete({ where: { id: sectionId } });
   revalidatePath(path);
 }
+
+export async function updateSectionNotes(sectionId: string, notes: string, path: string) {
+  await prisma.section.update({
+    where: { id: sectionId },
+    data: { notes },
+  });
+  revalidatePath(path);
+}

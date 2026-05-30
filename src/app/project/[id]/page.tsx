@@ -58,7 +58,7 @@ export default async function Page(props: any) {
       </div>
 
       <div className="mt-12 mb-4">
-        <ProjectNotes projectId={project.id} initialNotes={project.notes} />
+        <ProjectNotes sectionId={section.id} revalidatePath={revalidatePath} initialNotes={section.notes} />
       </div>
 
       {!project.isFinished && (

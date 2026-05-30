@@ -64,7 +64,6 @@ model VerificationToken {
 model Project {
   id          String   @id @default(cuid())
   name        String
-  notes       String   @default("")
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
@@ -76,6 +75,7 @@ model Project {
 model Section {
   id            String   @id @default(cuid())
   name          String
+  notes         String   @default("")
   totalRows     Int?     // opcional si es modo libre
   completedRows Int      @default(0)
   isFreeform    Boolean  @default(false)
