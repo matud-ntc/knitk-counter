@@ -21,28 +21,43 @@
   --foreground: #171717;
 }
 
-/* ☕ Catppuccin Mocha (del catálogo ui-kit) */
+/* ☕ Catppuccin Mocha (del catálogo, igual que Hera/Tyche) */
 .theme-mocha {
   --color-primary: #89b4fa;
   --color-primary-hover: #a6c8ff;
   --background: #1e1e2e;
   --foreground: #cdd6f4;
+  --surface: #181825;
+  --surface-2: #313244;
+  --surface-3: #45475a;
+  --muted-fg: #a6adc8;
+  --border-soft: #313244;
 }
 
-/* ❄️ Nord (del catálogo ui-kit) */
+/* ❄️ Nord (del catálogo, igual que Hera/Tyche) */
 .theme-nord {
   --color-primary: #88c0d0;
   --color-primary-hover: #a3d0dd;
   --background: #2e3440;
   --foreground: #eceff4;
+  --surface: #2b313c;
+  --surface-2: #3b4252;
+  --surface-3: #434c5e;
+  --muted-fg: #d8dee9;
+  --border-soft: #3b4252;
 }
 
-/* 🌹 Rosé Pine (del catálogo ui-kit) */
+/* 🌹 Rosé Pine (del catálogo, igual que Hera/Tyche) */
 .theme-rose {
   --color-primary: #c4a7e7;
   --color-primary-hover: #d4bef0;
   --background: #191724;
   --foreground: #e0def4;
+  --surface: #1f1d2e;
+  --surface-2: #26233a;
+  --surface-3: #2a2837;
+  --muted-fg: #908caa;
+  --border-soft: #2a2837;
 }
 
 body {
@@ -112,4 +127,31 @@ body {
 .card-bg-2,
 .card-bg-3 {
   color: var(--color-foreground);
+}
+
+/* ── Legibilidad de los temas oscuros del catálogo ──────────────────────
+   Varios componentes tienen grises/blancos hardcodeados (pensados para
+   fondos claros). Solo dentro de los temas oscuros remapeamos esas
+   utilidades a las superficies del tema. Salmón queda intacto. */
+:is(.theme-mocha, .theme-nord, .theme-rose) :is(.bg-white, .bg-gray-50, .bg-gray-100) {
+  background-color: var(--surface);
+}
+:is(.theme-mocha, .theme-nord, .theme-rose) .bg-gray-200 {
+  background-color: var(--surface-2);
+}
+:is(.theme-mocha, .theme-nord, .theme-rose)
+  :is(.hover\:bg-gray-200:hover, .hover\:bg-gray-300:hover) {
+  background-color: var(--surface-3);
+}
+:is(.theme-mocha, .theme-nord, .theme-rose)
+  :is(.text-gray-900, .text-gray-800, .text-gray-700) {
+  color: var(--foreground);
+}
+:is(.theme-mocha, .theme-nord, .theme-rose)
+  :is(.text-gray-600, .text-gray-500, .text-gray-400) {
+  color: var(--muted-fg);
+}
+:is(.theme-mocha, .theme-nord, .theme-rose)
+  :is(.border-gray-100, .border-gray-200, .border-gray-300) {
+  border-color: var(--border-soft);
 }
