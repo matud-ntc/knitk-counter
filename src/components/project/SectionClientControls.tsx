@@ -90,7 +90,7 @@ export default function SectionClientControls({
               () => setLocalRow((n) => n + 1),
             )
           }
-          className="bg-[var(--color-primary)] active:scale-95 hover:bg-[var(--color-primary-hover)] text-white text-6xl w-28 h-28 rounded-full flex items-center justify-center shadow-md transition-transform"
+          className="bg-[var(--color-primary)] active:scale-95 hover:bg-[var(--color-primary-hover)] text-[var(--color-on-primary)] text-6xl w-28 h-28 rounded-full flex items-center justify-center shadow-md transition-transform"
         >
           +
         </button>

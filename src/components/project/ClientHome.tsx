@@ -55,7 +55,7 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
         </Link>
 
         <Link href="/new" className="flex-1">
-          <Button className="w-full h-12 text-sm text-white bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] shadow-md">
+          <Button className="w-full h-12 text-sm text-[var(--color-on-primary)] bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] shadow-md">
             ➕ Nuevo
           </Button>
         </Link>

@@ -62,7 +62,7 @@ export default function QuickCounterPage() {
 
         <button
           onClick={() => update(count + 1)}
-          className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:scale-95 text-white text-6xl w-40 h-40 rounded-full flex items-center justify-center shadow-lg transition-all select-none"
+          className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:scale-95 text-[var(--color-on-primary)] text-6xl w-40 h-40 rounded-full flex items-center justify-center shadow-lg transition-all select-none"
         >
           +
         </button>

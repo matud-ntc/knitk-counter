@@ -22,11 +22,11 @@ export default function Button({
 
   const variants = {
     primary:
-      "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)]",
+      "bg-[var(--color-primary)] text-[var(--color-on-primary)] hover:bg-[var(--color-primary-hover)]",
     secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
     danger: "bg-red-500 text-white hover:bg-red-600",
     outline:
-      "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white bg-transparent",
+      "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] bg-transparent",
   };
 
   return (

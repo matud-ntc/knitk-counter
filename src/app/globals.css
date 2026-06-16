@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-on-primary: #fff;
   font-family: var(--font-primary), sans-serif;
 }
 
@@ -13,18 +14,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* 🎨 Tema por defecto: salmón */
+/* 🎨 Tema por defecto: salmón (original, no se toca) */
 .theme-salmon {
   --color-primary: #f97362;
   --color-primary-hover: #f46351;
+  --color-on-primary: #fff;
   --background: #fff;
   --foreground: #171717;
 }
 
-/* ☕ Catppuccin Mocha (del catálogo, igual que Hera/Tyche) */
+/* ── Catálogo (mismos temas que Hera/Tyche) ──────────────────────────── */
+
+/* ☀️ Claro neutro */
+.theme-light {
+  --color-primary: oklch(0.205 0 0);
+  --color-primary-hover: oklch(0.3 0 0);
+  --color-on-primary: oklch(0.985 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+}
+
+/* 🌙 Oscuro neutro */
+.theme-dark {
+  --color-primary: oklch(0.922 0 0);
+  --color-primary-hover: oklch(0.85 0 0);
+  --color-on-primary: oklch(0.205 0 0);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --surface: oklch(0.205 0 0);
+  --surface-2: oklch(0.269 0 0);
+  --surface-3: oklch(0.32 0 0);
+  --muted-fg: oklch(0.708 0 0);
+  --border-soft: oklch(0.3 0 0);
+}
+
+/* ☕ Catppuccin Mocha */
 .theme-mocha {
   --color-primary: #89b4fa;
   --color-primary-hover: #a6c8ff;
+  --color-on-primary: #11111b;
   --background: #1e1e2e;
   --foreground: #cdd6f4;
   --surface: #181825;
@@ -34,10 +62,11 @@
   --border-soft: #313244;
 }
 
-/* ❄️ Nord (del catálogo, igual que Hera/Tyche) */
+/* ❄️ Nord */
 .theme-nord {
   --color-primary: #88c0d0;
   --color-primary-hover: #a3d0dd;
+  --color-on-primary: #1c2530;
   --background: #2e3440;
   --foreground: #eceff4;
   --surface: #2b313c;
@@ -47,10 +76,11 @@
   --border-soft: #3b4252;
 }
 
-/* 🌹 Rosé Pine (del catálogo, igual que Hera/Tyche) */
+/* 🌹 Rosé Pine */
 .theme-rose {
   --color-primary: #c4a7e7;
   --color-primary-hover: #d4bef0;
+  --color-on-primary: #16141f;
   --background: #191724;
   --foreground: #e0def4;
   --surface: #1f1d2e;
@@ -78,6 +108,34 @@ body {
 }
 .theme-salmon .card-bg-3 {
   background-color: #f4e4f9;
+}
+
+/* Tema light */
+.theme-light .card-bg-0 {
+  background-color: oklch(0.985 0 0);
+}
+.theme-light .card-bg-1 {
+  background-color: oklch(0.97 0 0);
+}
+.theme-light .card-bg-2 {
+  background-color: oklch(0.95 0 0);
+}
+.theme-light .card-bg-3 {
+  background-color: oklch(0.93 0 0);
+}
+
+/* Tema dark */
+.theme-dark .card-bg-0 {
+  background-color: oklch(0.205 0 0);
+}
+.theme-dark .card-bg-1 {
+  background-color: oklch(0.269 0 0);
+}
+.theme-dark .card-bg-2 {
+  background-color: oklch(0.32 0 0);
+}
+.theme-dark .card-bg-3 {
+  background-color: oklch(0.37 0 0);
 }
 
 /* Tema mocha */
@@ -132,26 +190,27 @@ body {
 /* ── Legibilidad de los temas oscuros del catálogo ──────────────────────
    Varios componentes tienen grises/blancos hardcodeados (pensados para
    fondos claros). Solo dentro de los temas oscuros remapeamos esas
-   utilidades a las superficies del tema. Salmón queda intacto. */
-:is(.theme-mocha, .theme-nord, .theme-rose) :is(.bg-white, .bg-gray-50, .bg-gray-100) {
+   utilidades a las superficies del tema. Salmón y light quedan intactos. */
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
+  :is(.bg-white, .bg-gray-50, .bg-gray-100) {
   background-color: var(--surface);
 }
-:is(.theme-mocha, .theme-nord, .theme-rose) .bg-gray-200 {
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose) .bg-gray-200 {
   background-color: var(--surface-2);
 }
-:is(.theme-mocha, .theme-nord, .theme-rose)
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
   :is(.hover\:bg-gray-200:hover, .hover\:bg-gray-300:hover) {
   background-color: var(--surface-3);
 }
-:is(.theme-mocha, .theme-nord, .theme-rose)
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
   :is(.text-gray-900, .text-gray-800, .text-gray-700) {
   color: var(--foreground);
 }
-:is(.theme-mocha, .theme-nord, .theme-rose)
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
   :is(.text-gray-600, .text-gray-500, .text-gray-400) {
   color: var(--muted-fg);
 }
-:is(.theme-mocha, .theme-nord, .theme-rose)
+:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
   :is(.border-gray-100, .border-gray-200, .border-gray-300) {
   border-color: var(--border-soft);
 }
