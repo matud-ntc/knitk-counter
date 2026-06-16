@@ -21,35 +21,28 @@
   --foreground: #171717;
 }
 
-/* 🌸 Tema rosa fuerte (antes era el que llamabas salmón) */
-.theme-pink {
-  --color-primary: #ec4899;
-  --color-primary-hover: #db2777;
-  --background: #fff;
-  --foreground: #171717;
+/* ☕ Catppuccin Mocha (del catálogo ui-kit) */
+.theme-mocha {
+  --color-primary: #89b4fa;
+  --color-primary-hover: #a6c8ff;
+  --background: #1e1e2e;
+  --foreground: #cdd6f4;
 }
 
-/* 🔵 Azul eléctrico */
-.theme-electric {
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
-  --background: #f0f9ff;
-  --foreground: #0c1e38;
+/* ❄️ Nord (del catálogo ui-kit) */
+.theme-nord {
+  --color-primary: #88c0d0;
+  --color-primary-hover: #a3d0dd;
+  --background: #2e3440;
+  --foreground: #eceff4;
 }
 
-/* 🌑 Modo oscuro */
-.theme-dark {
-  --color-primary: #4b5563; /* slate-600 */
-  --color-primary-hover: #374151; /* slate-700 */
-  --background: #111827;
-  --foreground: #f9fafb;
-}
-
-.theme-korean {
-  --color-primary: #b8b2a6;
-  --color-primary-hover: #a69f92;
-  --background: #f5f4f1;
-  --foreground: #2e2e2e;
+/* 🌹 Rosé Pine (del catálogo ui-kit) */
+.theme-rose {
+  --color-primary: #c4a7e7;
+  --color-primary-hover: #d4bef0;
+  --background: #191724;
+  --foreground: #e0def4;
 }
 
 body {
@@ -72,60 +65,46 @@ body {
   background-color: #f4e4f9;
 }
 
-/* Tema pink */
-.theme-pink .card-bg-0 {
-  background-color: #fef2f8;
+/* Tema mocha */
+.theme-mocha .card-bg-0 {
+  background-color: #181825;
 }
-.theme-pink .card-bg-1 {
-  background-color: #fddde6;
+.theme-mocha .card-bg-1 {
+  background-color: #313244;
 }
-.theme-pink .card-bg-2 {
-  background-color: #fae8ff;
+.theme-mocha .card-bg-2 {
+  background-color: #45475a;
 }
-.theme-pink .card-bg-3 {
-  background-color: #ffe4e6;
-}
-
-/* Tema electric */
-.theme-electric .card-bg-0 {
-  background-color: #dbeafe;
-}
-.theme-electric .card-bg-1 {
-  background-color: #e0f2fe;
-}
-.theme-electric .card-bg-2 {
-  background-color: #f0f9ff;
-}
-.theme-electric .card-bg-3 {
-  background-color: #bae6fd;
+.theme-mocha .card-bg-3 {
+  background-color: #585b70;
 }
 
-/* Tema korean */
-.theme-korean .card-bg-0 {
-  background-color: #f2f0eb;
+/* Tema nord */
+.theme-nord .card-bg-0 {
+  background-color: #2b313c;
 }
-.theme-korean .card-bg-1 {
-  background-color: #e5e0d8;
+.theme-nord .card-bg-1 {
+  background-color: #3b4252;
 }
-.theme-korean .card-bg-2 {
-  background-color: #f4f1ec;
+.theme-nord .card-bg-2 {
+  background-color: #434c5e;
 }
-.theme-korean .card-bg-3 {
-  background-color: #d9d4ce;
+.theme-nord .card-bg-3 {
+  background-color: #4c566a;
 }
 
-/* Tema dark */
-.theme-dark .card-bg-0 {
-  background-color: #1e293b;
+/* Tema rose */
+.theme-rose .card-bg-0 {
+  background-color: #1f1d2e;
 }
-.theme-dark .card-bg-1 {
-  background-color: #334155;
+.theme-rose .card-bg-1 {
+  background-color: #26233a;
 }
-.theme-dark .card-bg-2 {
-  background-color: #475569;
+.theme-rose .card-bg-2 {
+  background-color: #2a2837;
 }
-.theme-dark .card-bg-3 {
-  background-color: #64748b;
+.theme-rose .card-bg-3 {
+  background-color: #403d52;
 }
 
 .card-bg-0,

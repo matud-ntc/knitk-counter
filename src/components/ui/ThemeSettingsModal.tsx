@@ -6,10 +6,9 @@ import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const THEMES = [
   { label: "🧡 Salmón", value: "theme-salmon" },
-  { label: "🌸 Rosa fuerte", value: "theme-pink" },
-  { label: "🔵 Azul eléctrico", value: "theme-electric" },
-  { label: "🌑 Modo oscuro", value: "theme-dark" },
-  { label: "🧊 Korean", value: "theme-korean" },
+  { label: "☕ Mocha", value: "theme-mocha" },
+  { label: "❄️ Nord", value: "theme-nord" },
+  { label: "🌹 Rosé Pine", value: "theme-rose" },
 ];
 
 const VERSION = "v2.2.0";
