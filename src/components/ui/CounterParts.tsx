@@ -2,7 +2,40 @@
 
 import { useRef, useState } from "react";
 import clsx from "clsx";
-import { haptic } from "@/lib/clientSettings";
+import { haptic, useCounterSettings } from "@/lib/clientSettings";
+
+/* ── Háptica iOS: overlay <input switch> invisible ─────────────────────
+   iOS 26.5+ solo dispara el tick si el dedo toca un <input switch> nativo
+   de verdad (no por script). Este overlay se monta DENTRO de un contenedor
+   position:relative y, en iOS, recibe el tap (llama onTap). Si la háptica
+   está apagada no se renderiza y el tap cae en el botón de abajo.
+   En Android el tick lo da navigator.vibrate vía haptic() dentro de onTap. */
+export function HapticOverlay({
+  onTap,
+  rounded = true,
+}: {
+  onTap: () => void;
+  rounded?: boolean;
+}) {
+  const [settings] = useCounterSettings();
+  if (!settings.vibrate) return null;
+  return (
+    <input
+      // El atributo WebKit `switch` no está tipado; lo seteamos por ref.
+      ref={(el) => {
+        if (el) el.setAttribute("switch", "");
+      }}
+      type="checkbox"
+      tabIndex={-1}
+      aria-hidden
+      onClick={onTap}
+      className={clsx(
+        "absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0",
+        rounded ? "[clip-path:inset(0_round_9999px)]" : "[clip-path:inset(0_round_20px)]",
+      )}
+    />
+  );
+}
 
 /* ── Número grande con "pop" en cada cambio ────────────────────────── */
 export function BigNumber({
@@ -46,7 +79,7 @@ export function PlusButton({
 
   return (
     <div
-      className="relative flex items-center justify-center"
+      className="relative flex items-center justify-center transition active:scale-95"
       style={{ width: size, height: size }}
     >
       {/* halo */}
@@ -86,6 +119,8 @@ export function PlusButton({
           +
         </span>
       </button>
+      {/* Overlay háptico iOS: el dedo toca el <input switch> real. */}
+      <HapticOverlay onTap={handle} />
     </div>
   );
 }

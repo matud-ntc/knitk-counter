@@ -66,43 +66,17 @@ export function useCounterSettings(): [
   return [settings, update];
 }
 
-/* ── Háptico iOS: truco del <input switch> ──────────────────────────
-   Safari (iPhone) no soporta navigator.vibrate. Pero togglear un
-   <input type="checkbox" switch> dentro de un <label> dispara el háptico
-   nativo del sistema (iOS 17.4+). Lo usamos como fallback. */
-let hapticSwitch: HTMLLabelElement | null = null;
-
-function ensureHapticSwitch(): HTMLLabelElement | null {
-  if (typeof document === "undefined") return null;
-  if (hapticSwitch) return hapticSwitch;
-  const label = document.createElement("label");
-  label.setAttribute("aria-hidden", "true");
-  label.style.cssText =
-    "position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;";
-  const input = document.createElement("input");
-  input.type = "checkbox";
-  input.setAttribute("switch", "");
-  input.tabIndex = -1;
-  label.appendChild(input);
-  document.body.appendChild(label);
-  hapticSwitch = label;
-  return label;
-}
-
-/** Vibración corta al sumar fila (respeta el ajuste). */
+/* ── Háptica ─────────────────────────────────────────────────────────
+   Android/Chrome: navigator.vibrate.
+   iOS (Safari) nunca soportó la Vibration API, y desde iOS 26.5 Apple
+   también bloqueó disparar el háptico del <input switch> por script
+   (sw.click() ya no hace nada). En iOS la háptica ahora la produce
+   <HapticOverlay/> (un <input switch> invisible que el DEDO toca directo
+   sobre el botón). Esta función cubre Android; en iOS es no-op. */
 export function haptic(pattern: number | number[] = 8) {
   if (typeof navigator === "undefined") return;
   if (!readSettings().vibrate) return;
-  if ("vibrate" in navigator) {
-    navigator.vibrate(pattern);
-  }
-  // Fallback iOS: cada elemento del patrón = un toque háptico.
-  const taps = Array.isArray(pattern) ? Math.ceil(pattern.length / 2) : 1;
-  const sw = ensureHapticSwitch();
-  if (sw) {
-    sw.click();
-    for (let i = 1; i < taps; i++) setTimeout(() => sw.click(), i * 90);
-  }
+  if ("vibrate" in navigator) navigator.vibrate(pattern);
 }
 
 let audioCtx: AudioContext | null = null;
