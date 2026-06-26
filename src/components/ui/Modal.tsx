@@ -52,14 +52,28 @@ export default function Modal({
                   className,
                 )}
               >
-                {title && (
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-bold leading-6 text-[var(--foreground)] mb-4"
+                <div className="mb-4 flex items-center justify-between">
+                  {title ? (
+                    <Dialog.Title
+                      as="h3"
+                      className="text-lg font-bold leading-6 text-[var(--foreground)]"
+                    >
+                      {title}
+                    </Dialog.Title>
+                  ) : (
+                    <span />
+                  )}
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Cerrar"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--surface-2)] border border-[var(--border-soft)] text-[var(--muted-fg)] active:scale-95 transition"
                   >
-                    {title}
-                  </Dialog.Title>
-                )}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                    </svg>
+                  </button>
+                </div>
                 <div className="space-y-4">{children}</div>
               </Dialog.Panel>
             </Transition.Child>

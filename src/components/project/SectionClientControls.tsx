@@ -11,7 +11,7 @@ import {
   MinusGlyph,
   ResetIcon,
 } from "@/components/ui/CounterParts";
-import { haptic, useCounterSettings, useWakeLock } from "@/lib/clientSettings";
+import { haptic, tick, useCounterSettings, useWakeLock } from "@/lib/clientSettings";
 
 type Props = {
   sectionId: string;
@@ -54,6 +54,8 @@ export default function SectionClientControls({
     setLocalRow(next);
     if (reminderEvery > 0 && next % reminderEvery === 0) {
       haptic([20, 60, 20]);
+      tick();
+      setTimeout(tick, 130);
       setToast(true);
       setTimeout(() => setToast(false), 1800);
     }
@@ -72,9 +74,9 @@ export default function SectionClientControls({
     <div className="flex flex-col items-center gap-2">
       <BigNumber
         value={localRow}
-        className="text-[128px] leading-[0.9] text-[var(--foreground)]"
+        className="text-[110px] leading-[0.9] text-[var(--foreground)]"
       />
-      <span className="mb-1.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--muted-fg)]">
+      <span className="mb-1 text-[13px] font-semibold uppercase tracking-[0.16em] text-[var(--muted-fg)]">
         filas tejidas
       </span>
 
@@ -86,13 +88,13 @@ export default function SectionClientControls({
         <HoldResetButton onReset={reset} size={62} />
       </div>
 
-      <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-[var(--muted-fg)]">
+      <div className="mt-2 flex items-center gap-1.5 text-xs font-medium text-[var(--muted-fg)]">
         <ResetIcon />
         Mantené reiniciar para borrar todo
       </div>
 
       {/* Avisar cada N filas */}
-      <div className="mt-5 flex w-full items-center gap-3 rounded-2xl knit-surface px-3.5 py-3 shadow-soft">
+      <div className="mt-4 flex w-full items-center gap-3 rounded-2xl knit-surface px-3.5 py-2.5 shadow-soft">
         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--chip-bg)] text-sm font-extrabold text-[var(--chip-fg)]">
           !
         </span>

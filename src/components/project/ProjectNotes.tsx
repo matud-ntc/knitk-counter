@@ -37,74 +37,76 @@ export default function ProjectNotes({
   const hasNotes = value.trim().length > 0;
 
   return (
-    <div className="w-full rounded-2xl knit-surface px-4 py-3 shadow-soft">
+    <>
+      {/* Barra compacta (siempre visible, anclada abajo) */}
       <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center gap-2"
+        onClick={() => setOpen(true)}
+        className="flex w-full items-center gap-2 rounded-2xl knit-surface px-4 py-3 text-left shadow-soft"
       >
         <NoteIcon />
         <span className="text-[13px] font-semibold uppercase tracking-wide text-[var(--muted-fg)]">
-          Notas de la sección
+          Notas
         </span>
-        {hasNotes && !open && (
-          <span className="ml-auto mr-2 h-2 w-2 rounded-full bg-[var(--color-primary)]" />
+        {hasNotes && (
+          <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-[var(--foreground)]/70">
+            {value}
+          </span>
         )}
-        <span className="ml-auto text-[13px] font-bold text-[var(--color-primary)]">
-          {open ? "Cerrar" : hasNotes ? "Editar" : "Agregar"}
+        <span className="ml-auto shrink-0 text-[13px] font-bold text-[var(--color-primary)]">
+          {hasNotes ? "Editar" : "Agregar"}
         </span>
       </button>
 
-      {!open && hasNotes && (
-        <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-[var(--foreground)]/80">
-          {value}
-        </p>
-      )}
-
-      <AnimatePresence initial={false}>
+      {/* Bottom sheet al expandir */}
+      <AnimatePresence>
         {open && (
-          <motion.div
-            key="notes-panel"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="pt-3">
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", stiffness: 380, damping: 38 }}
+              className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md rounded-t-3xl knit-surface px-5 pb-8 pt-4 shadow-float"
+            >
+              <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-[var(--border-soft)]" />
+              <div className="mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-wide text-[var(--muted-fg)]">
+                  <NoteIcon />
+                  Notas de la sección
+                </span>
+                <button
+                  onClick={() => setOpen(false)}
+                  aria-label="Cerrar"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--surface-2)] border border-[var(--border-soft)] text-[var(--muted-fg)] active:scale-95 transition"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+                  </svg>
+                </button>
+              </div>
               <textarea
+                autoFocus
                 value={value}
                 onChange={handleChange}
                 placeholder="Cambié a aguja 4 mm en la fila 30…"
-                className="min-h-[110px] w-full resize-none rounded-xl border-[1.5px] border-[var(--border-input)] bg-[var(--surface-2)] px-3 py-2.5 text-[var(--foreground)] placeholder:text-[var(--muted-fg)]/60 outline-none focus:border-[var(--color-primary)]"
+                className="min-h-[140px] w-full resize-none rounded-xl border-[1.5px] border-[var(--border-input)] bg-[var(--surface-2)] px-3 py-2.5 text-[var(--foreground)] placeholder:text-[var(--muted-fg)]/60 outline-none focus:border-[var(--color-primary)]"
                 style={{ fontSize: "16px" }}
               />
               <div className="mt-1 h-4 text-right text-xs text-[var(--muted-fg)]">
-                <AnimatePresence>
-                  {saved && (
-                    <motion.span
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      Guardado
-                    </motion.span>
-                  )}
-                  {isPending && !saved && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                    >
-                      Guardando…
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+                {saved ? "Guardado" : isPending ? "Guardando…" : ""}
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 

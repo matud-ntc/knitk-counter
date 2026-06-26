@@ -86,6 +86,8 @@ export function tick() {
         .webkitAudioContext;
     if (!audioCtx) audioCtx = new AC();
     const ctx = audioCtx;
+    // El contexto suele quedar "suspended" hasta el primer gesto; reactivar.
+    if (ctx.state === "suspended") ctx.resume();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = "sine";

@@ -37,7 +37,7 @@ export default async function Page(props: any) {
   const revalidatePath = `/project/${params.id}`;
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 pb-6 pt-14">
+    <main className="mx-auto flex h-[100dvh] max-w-md flex-col overflow-hidden px-5 pb-4 pt-12">
       <ProjectHeader
         projectId={project.id}
         projectName={project.name}
@@ -52,11 +52,11 @@ export default async function Page(props: any) {
         isFinished={project.isFinished}
       />
 
-      <div className="mt-8">
+      <div className="mt-5">
         <SectionProgress name={section.name} section={section} />
       </div>
 
-      <div className="flex flex-1 flex-col justify-center py-6">
+      <div className="flex min-h-0 flex-1 flex-col justify-center">
         <SectionClientControls
           key={section.id}
           sectionId={section.id}
