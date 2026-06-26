@@ -8,7 +8,7 @@ import {
   RoundControl,
   MinusGlyph,
 } from "@/components/ui/CounterParts";
-import { useCounterSettings, useWakeLock } from "@/lib/clientSettings";
+import { haptic, tick, useCounterSettings, useWakeLock } from "@/lib/clientSettings";
 
 const STORAGE_KEY = "quick-counter-count";
 
@@ -60,7 +60,11 @@ export default function QuickCounterPage() {
 
       <div className="mb-4 flex justify-center">
         <PlusButton
-          onAdd={() => update(count + 1)}
+          onAdd={() => {
+            haptic();
+            tick();
+            update(count + 1);
+          }}
           size={158}
           plusSize={88}
         />

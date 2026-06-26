@@ -286,6 +286,18 @@ body {
   }
 }
 
+/* Sin selección de texto / menú-callout al mantener apretado (iOS) */
+button,
+[role="switch"],
+.no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
 /* Oculta scrollbars en carruseles de chips */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

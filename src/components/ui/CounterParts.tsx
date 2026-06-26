@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import clsx from "clsx";
-import { haptic, tick } from "@/lib/clientSettings";
+import { haptic } from "@/lib/clientSettings";
 
 /* ── Número grande con "pop" en cada cambio ────────────────────────── */
 export function BigNumber({
@@ -15,7 +15,7 @@ export function BigNumber({
   return (
     <span
       key={value}
-      className={clsx("pop-num font-extrabold tabular-nums", className)}
+      className={clsx("pop-num no-select font-extrabold tabular-nums", className)}
       style={{ fontFamily: "var(--font-primary)" }}
     >
       {value}
@@ -41,8 +41,6 @@ export function PlusButton({
   const handle = () => {
     const id = ++idRef.current;
     setPulses((p) => [...p, id]);
-    haptic();
-    tick();
     onAdd();
   };
 

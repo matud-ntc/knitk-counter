@@ -66,41 +66,91 @@ export function useCounterSettings(): [
   return [settings, update];
 }
 
+/* ── Háptico iOS: truco del <input switch> ──────────────────────────
+   Safari (iPhone) no soporta navigator.vibrate. Pero togglear un
+   <input type="checkbox" switch> dentro de un <label> dispara el háptico
+   nativo del sistema (iOS 17.4+). Lo usamos como fallback. */
+let hapticSwitch: HTMLLabelElement | null = null;
+
+function ensureHapticSwitch(): HTMLLabelElement | null {
+  if (typeof document === "undefined") return null;
+  if (hapticSwitch) return hapticSwitch;
+  const label = document.createElement("label");
+  label.setAttribute("aria-hidden", "true");
+  label.style.cssText =
+    "position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;";
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.setAttribute("switch", "");
+  input.tabIndex = -1;
+  label.appendChild(input);
+  document.body.appendChild(label);
+  hapticSwitch = label;
+  return label;
+}
+
 /** Vibración corta al sumar fila (respeta el ajuste). */
 export function haptic(pattern: number | number[] = 8) {
-  if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
+  if (typeof navigator === "undefined") return;
   if (!readSettings().vibrate) return;
-  navigator.vibrate(pattern);
+  if ("vibrate" in navigator) {
+    navigator.vibrate(pattern);
+  }
+  // Fallback iOS: cada elemento del patrón = un toque háptico.
+  const taps = Array.isArray(pattern) ? Math.ceil(pattern.length / 2) : 1;
+  const sw = ensureHapticSwitch();
+  if (sw) {
+    sw.click();
+    for (let i = 1; i < taps; i++) setTimeout(() => sw.click(), i * 90);
+  }
 }
 
 let audioCtx: AudioContext | null = null;
 
-/** Tick suave de audio al sumar fila (respeta el ajuste). */
-export function tick() {
-  if (typeof window === "undefined") return;
-  if (!readSettings().sound) return;
+function getCtx(): AudioContext | null {
+  if (typeof window === "undefined") return null;
   try {
     const AC =
       window.AudioContext ||
       (window as unknown as { webkitAudioContext: typeof AudioContext })
         .webkitAudioContext;
     if (!audioCtx) audioCtx = new AC();
-    const ctx = audioCtx;
-    // El contexto suele quedar "suspended" hasta el primer gesto; reactivar.
-    if (ctx.state === "suspended") ctx.resume();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = 660;
-    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
-    osc.connect(gain).connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.13);
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
   } catch {
-    /* ignore */
+    return null;
   }
+}
+
+function blip(freq: number, start: number, dur = 0.12, peak = 0.18) {
+  const ctx = audioCtx;
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = "sine";
+  osc.frequency.value = freq;
+  const t = ctx.currentTime + start;
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(peak, t + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(t);
+  osc.stop(t + dur + 0.02);
+}
+
+/** Tick suave al sumar una fila (respeta el ajuste). */
+export function tick() {
+  if (!readSettings().sound) return;
+  if (!getCtx()) return;
+  blip(660, 0, 0.1, 0.16);
+}
+
+/** Chime ascendente distinto, para el aviso de "cada N filas". */
+export function chime() {
+  if (!readSettings().sound) return;
+  if (!getCtx()) return;
+  blip(784, 0, 0.14, 0.2); // Sol
+  blip(1175, 0.13, 0.22, 0.22); // Re (octava arriba)
 }
 
 /** Mantiene la pantalla encendida mientras el componente esté montado. */

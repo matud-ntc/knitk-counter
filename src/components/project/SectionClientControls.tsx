@@ -11,7 +11,7 @@ import {
   MinusGlyph,
   ResetIcon,
 } from "@/components/ui/CounterParts";
-import { haptic, tick, useCounterSettings, useWakeLock } from "@/lib/clientSettings";
+import { chime, haptic, tick, useCounterSettings, useWakeLock } from "@/lib/clientSettings";
 
 type Props = {
   sectionId: string;
@@ -52,12 +52,16 @@ export default function SectionClientControls({
   const add = () => {
     const next = localRow + 1;
     setLocalRow(next);
-    if (reminderEvery > 0 && next % reminderEvery === 0) {
+    const milestone = reminderEvery > 0 && next % reminderEvery === 0;
+    if (milestone) {
+      // Aviso "cada N": háptico fuerte + chime distinto (sin el tick del +)
       haptic([20, 60, 20]);
-      tick();
-      setTimeout(tick, 130);
+      chime();
       setToast(true);
       setTimeout(() => setToast(false), 1800);
+    } else {
+      haptic();
+      tick();
     }
     startTransition(() => addRow(sectionId, revalidatePath));
   };
