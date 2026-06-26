@@ -1,19 +1,30 @@
 "use client";
 
-import { Dialog, Transition, Listbox } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
-import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
+import Modal from "@/components/ui/Modal";
+import Toggle from "@/components/ui/Toggle";
+import { useCounterSettings } from "@/lib/clientSettings";
 
 const THEMES = [
-  { label: "🧡 Salmón", value: "theme-salmon" },
-  { label: "☀️ Claro", value: "theme-light" },
-  { label: "🌙 Oscuro", value: "theme-dark" },
-  { label: "☕ Mocha", value: "theme-mocha" },
-  { label: "❄️ Nord", value: "theme-nord" },
-  { label: "🌹 Rosé Pine", value: "theme-rose" },
+  { value: "theme-salmon", label: "Salmón", bg: "#FAF3EC", surface: "#FFFFFF", accent: "#EE7B5F", color: "#3A302B" },
+  { value: "theme-light", label: "Claro", bg: "#F5F2EE", surface: "#FFFFFF", accent: "#E58A6E", color: "#3A302B" },
+  { value: "theme-dark", label: "Oscuro", bg: "#211B19", surface: "#2C2422", accent: "#F4855F", color: "#F3E9E2" },
+  { value: "theme-mocha", label: "Mocha", bg: "#2B2622", surface: "#372F2A", accent: "#93B4D6", color: "#EDE3DA" },
+  { value: "theme-nord", label: "Nord", bg: "#2E3440", surface: "#3B4252", accent: "#88C0D0", color: "#ECEFF4" },
+  { value: "theme-rose", label: "Rosé Pine", bg: "#191724", surface: "#26233A", accent: "#C4A7E7", color: "#E0DEF4" },
 ];
 
-const VERSION = "v2.2.0";
+const BASE_CLASS = "antialiased lana-bg";
+
+function applyTheme(value: string) {
+  document.body.className = `${BASE_CLASS} ${value}`;
+  localStorage.setItem("theme", value);
+  const color = getComputedStyle(document.body)
+    .getPropertyValue("--color-primary")
+    .trim();
+  const meta = document.querySelector("meta[name='theme-color']");
+  if (meta && color) meta.setAttribute("content", color);
+}
 
 export default function ThemeSettingsModal({
   open,
@@ -22,109 +33,160 @@ export default function ThemeSettingsModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const [selected, setSelected] = useState(THEMES[0]);
+  const [selected, setSelected] = useState("theme-salmon");
+  const [settings, setSettings] = useCounterSettings();
 
   useEffect(() => {
     const stored = localStorage.getItem("theme") || "theme-salmon";
-    const match = THEMES.find((t) => t.value === stored) || THEMES[0];
-    setSelected(match);
-    document.body.className = match.value;
+    setSelected(THEMES.some((t) => t.value === stored) ? stored : "theme-salmon");
+  }, [open]);
 
-    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
-    const metaTag = document.querySelector("meta[name='theme-color']");
-    if (metaTag && color) {
-      metaTag.setAttribute("content", color);
-    }
-  }, []);
-
-  const handleChange = (theme: (typeof THEMES)[number]) => {
-    setSelected(theme);
-    document.body.className = theme.value;
-    localStorage.setItem("theme", theme.value);
-
-    const color = getComputedStyle(document.body).getPropertyValue("--color-primary").trim();
-    const metaTag = document.querySelector("meta[name='theme-color']");
-    if (metaTag && color) {
-      metaTag.setAttribute("content", color);
-    }
+  const pick = (value: string) => {
+    setSelected(value);
+    applyTheme(value);
   };
 
   return (
-    <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center px-4 py-10 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-200"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-150"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="relative w-full max-w-sm transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title className="text-lg font-medium leading-6 text-gray-900 mb-6">
-                  Ajustes
-                </Dialog.Title>
-
-                <div className="flex py-4 items-center justify-between">
-                  <label className="text-gray-700 font-medium">Tema</label>
-
-                  <Listbox value={selected} onChange={handleChange}>
-                    <div className="relative w-48">
-                      <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white py-2 pl-4 pr-10 text-left border border-[var(--color-primary)] shadow focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition font-medium text-gray-800">
-                        <span className="block truncate">{selected.label}</span>
-                        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                          <ChevronUpDownIcon className="h-5 w-5 text-[var(--color-primary)]" />
-                        </span>
-                      </Listbox.Button>
-
-                      <Listbox.Options
-                        as="ul"
-                        className="absolute z-10 mt-2 w-full overflow-auto rounded-xl bg-white border border-[var(--color-primary)] shadow-lg max-h-60 focus:outline-none list-none p-0"
-                      >
-                        {THEMES.map((theme) => (
-                          <Listbox.Option
-                            key={theme.value}
-                            value={theme}
-                            as="li"
-                          >
-                            {({ active, selected }) => (
-                              <div
-                                className={`relative cursor-pointer select-none py-2 px-4 ${
-                                  active ? "bg-[var(--color-primary)]/10" : ""
-                                } ${
-                                  selected
-                                    ? "font-bold text-[var(--color-primary)]"
-                                    : "text-gray-800"
-                                }`}
-                              >
-                                <span className="block truncate">
-                                  {theme.label}
-                                </span>
-                                {selected && (
-                                  <span className="absolute inset-y-0 right-4 flex items-center text-lg">
-                                    🧶
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </div>
-                  </Listbox>
-                </div>
-                <span className="absolute bottom-1 right-4 text-xs text-gray-400">
-                  {VERSION}
-                </span>
-              </Dialog.Panel>
-            </Transition.Child>
+    <Modal open={open} onClose={onClose} title="Ajustes">
+      <div className="space-y-6">
+        {/* Tema */}
+        <section>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted-fg)]">
+            Tema
+          </h4>
+          <div className="grid grid-cols-2 gap-2.5">
+            {THEMES.map((t) => {
+              const active = selected === t.value;
+              return (
+                <button
+                  key={t.value}
+                  onClick={() => pick(t.value)}
+                  className={`rounded-[18px] p-2.5 text-left transition ${
+                    active
+                      ? "border-2 border-[var(--color-primary)] [box-shadow:0_6px_16px_rgba(var(--shadow-rgb),0.18)]"
+                      : "border-[1.5px] border-[var(--border-soft)]"
+                  }`}
+                >
+                  <div
+                    className="flex h-[58px] flex-col justify-center gap-1.5 rounded-xl p-2.5"
+                    style={{ background: t.bg }}
+                  >
+                    <span
+                      className="h-2 w-[65%] rounded"
+                      style={{ background: t.surface }}
+                    />
+                    <span className="flex gap-1.5">
+                      <span
+                        className="h-3 w-5 rounded"
+                        style={{ background: t.accent }}
+                      />
+                      <span
+                        className="h-3 w-7 rounded"
+                        style={{ background: t.surface }}
+                      />
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-sm font-bold text-[var(--foreground)]">
+                      {t.label}
+                    </span>
+                    <span
+                      className={`flex h-5 w-5 items-center justify-center rounded-full ${
+                        active
+                          ? "bg-[var(--color-primary)] text-[var(--color-on-primary)]"
+                          : "border-2 border-[var(--border-soft)]"
+                      }`}
+                    >
+                      {active && <CheckSmall />}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </section>
+
+        {/* Contador */}
+        <section>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted-fg)]">
+            Contador
+          </h4>
+          <div className="overflow-hidden rounded-2xl knit-surface shadow-soft">
+            <Row
+              label="Vibración al sumar"
+              checked={settings.vibrate}
+              onChange={(v) => setSettings({ vibrate: v })}
+            />
+            <Divider />
+            <Row
+              label="Mantener pantalla encendida"
+              checked={settings.keepAwake}
+              onChange={(v) => setSettings({ keepAwake: v })}
+            />
+            <Divider />
+            <Row
+              label="Sonido del contador"
+              checked={settings.sound}
+              onChange={(v) => setSettings({ sound: v })}
+            />
+          </div>
+        </section>
+
+        {/* Cuenta */}
+        <section>
+          <a
+            href="/api/auth/signout"
+            className="flex items-center gap-3 rounded-2xl knit-surface px-4 py-3 shadow-soft"
+          >
+            <span className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[var(--chip-bg)] text-lg font-bold text-[var(--chip-fg)]">
+              🧶
+            </span>
+            <span className="flex-1 text-[15px] font-semibold text-[var(--foreground)]">
+              Tu cuenta
+            </span>
+            <span className="text-sm font-bold text-[var(--color-primary)]">
+              Salir
+            </span>
+          </a>
+        </section>
+      </div>
+    </Modal>
+  );
+}
+
+function Row({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between px-4 py-3.5">
+      <span className="text-[15px] font-semibold text-[var(--foreground)]">
+        {label}
+      </span>
+      <Toggle checked={checked} onChange={onChange} ariaLabel={label} />
+    </div>
+  );
+}
+
+function Divider() {
+  return <div className="mx-4 h-px bg-[var(--border-soft)]" />;
+}
+
+function CheckSmall() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 12.5l4.5 4.5L19 7"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

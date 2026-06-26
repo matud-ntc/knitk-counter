@@ -48,14 +48,14 @@ export default function Modal({
             >
               <Dialog.Panel
                 className={clsx(
-                  "w-full max-w-md transform rounded-2xl bg-white px-6 py-8 text-left align-middle shadow-xl transition-all",
+                  "w-full max-w-md transform rounded-3xl bg-[var(--surface)] border border-[var(--border-soft)] px-6 py-8 text-left align-middle shadow-float transition-all",
                   className,
                 )}
               >
                 {title && (
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-semibold leading-6 text-gray-900 mb-4"
+                    className="text-lg font-bold leading-6 text-[var(--foreground)] mb-4"
                   >
                     {title}
                   </Dialog.Title>

@@ -1,12 +1,10 @@
 // src/app/project/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
-import SectionSelector from "@/components/project/SectionSelector";
+import ProjectHeader from "@/components/project/ProjectHeader";
 import SectionProgress from "@/components/project/SectionProgress";
 import SectionClientControls from "@/components/project/SectionClientControls";
 import ProjectNotes from "@/components/project/ProjectNotes";
-import FinishButton from "@/components/project/FinishButton";
 import { notFound } from "next/navigation";
-import ThemeHydration from "@/components/ui/ThemeHydration";
 
 export default async function Page(props: any) {
   const params = await props.params;
@@ -19,51 +17,60 @@ export default async function Page(props: any) {
 
   if (!project) return notFound();
   if (project.sections.length === 0)
-    return <p>Este proyecto no tiene secciones.</p>;
+    return (
+      <p className="p-8 text-center text-[var(--muted-fg)]">
+        Este proyecto no tiene secciones.
+      </p>
+    );
+
+  const sections = [...project.sections].sort((a, b) => a.order - b.order);
 
   const currentSectionId =
     typeof searchParams?.section === "string"
       ? searchParams.section
-      : project.sections[0].id;
+      : sections[0].id;
 
-  const section = project.sections.find((s) => s.id === currentSectionId);
+  const section = sections.find((s) => s.id === currentSectionId);
   if (!section) return notFound();
 
+  const sectionIndex = sections.findIndex((s) => s.id === section.id);
   const revalidatePath = `/project/${params.id}`;
 
   return (
-    <main className="flex flex-col min-h-screen px-4 pb-6 pt-8 max-w-md mx-auto">
-      <ThemeHydration />
-      <h1 className="text-3xl font-bold text-center text-[var(--color-primary)] mb-4">
-        {project.name}
-      </h1>
-      <SectionSelector
+    <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 pb-6 pt-14">
+      <ProjectHeader
         projectId={project.id}
-        sections={project.sections.map((s) => ({
-          ...s,
+        projectName={project.name}
+        sections={sections.map((s) => ({
+          id: s.id,
+          name: s.name,
           totalRows: s.totalRows ?? undefined,
         }))}
         currentId={section.id}
+        sectionIndex={sectionIndex}
         revalidatePath={revalidatePath}
+        isFinished={project.isFinished}
       />
-      <div className="mt-10 mb-10">
-        <SectionProgress section={section} />
+
+      <div className="mt-8">
+        <SectionProgress name={section.name} section={section} />
       </div>
-      <div className="flex-grow flex flex-col justify-center">
+
+      <div className="flex flex-1 flex-col justify-center py-6">
         <SectionClientControls
+          key={section.id}
           sectionId={section.id}
           revalidatePath={revalidatePath}
           initialRowCount={section.completedRows}
         />
       </div>
 
-      <div className="mt-12 mb-4">
-        <ProjectNotes key={section.id} sectionId={section.id} revalidatePath={revalidatePath} initialNotes={section.notes} />
-      </div>
-
-      {!project.isFinished && (
-        <FinishButton projectId={project.id} />
-      )}
+      <ProjectNotes
+        key={`notes-${section.id}`}
+        sectionId={section.id}
+        revalidatePath={revalidatePath}
+        initialNotes={section.notes}
+      />
     </main>
   );
 }

@@ -1,18 +1,51 @@
-import type { Metadata } from "next";
-import { Quicksand } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Baloo_2, Fredoka } from "next/font/google";
 import "./globals.css";
 
-const quicksand = Quicksand({
+const baloo = Baloo_2({
   subsets: ["latin"],
   variable: "--font-primary",
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  variable: "--font-accent",
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Knitk Counter",
-  description: "Contador de puntos",
+  description: "Tu contador de filas de tejido",
   manifest: "/manifest.json",
-  themeColor: "#ec4899",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Knitk Counter",
+  },
+  icons: {
+    apple: "/icon-192.png",
+  },
 };
+
+export const viewport: Viewport = {
+  themeColor: "#EE7B5F",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+};
+
+// Aplica el tema guardado antes del primer paint para evitar el flash.
+const themeScript = `
+(function(){
+  try {
+    var valid = ["theme-salmon","theme-light","theme-dark","theme-mocha","theme-nord","theme-rose"];
+    var t = localStorage.getItem("theme");
+    document.body.className = "antialiased lana-bg " + ((t && valid.indexOf(t) !== -1) ? t : "theme-salmon");
+  } catch (e) {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -20,15 +53,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={quicksand.variable}>
+    <html lang="es" className={`${baloo.variable} ${fredoka.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta id="theme-color" name="theme-color" content="#f97362" />
       </head>
-      <body className={`${quicksand.variable} font-sans antialiased`}>
+      <body className="antialiased lana-bg theme-salmon min-h-screen">
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {children}
       </body>
     </html>

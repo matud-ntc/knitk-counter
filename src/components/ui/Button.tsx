@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import clsx from "clsx";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "danger" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
   circle?: boolean;
 };
 
@@ -14,19 +14,21 @@ export default function Button({
   ...props
 }: Props) {
   const base = clsx(
-    "transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed",
+    "transition active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed select-none",
     circle
-      ? "w-10 h-10 rounded-full flex items-center justify-center text-xl"
-      : "px-4 py-2 rounded-xl font-semibold",
+      ? "w-12 h-12 rounded-full flex items-center justify-center text-xl"
+      : "px-5 py-3 rounded-2xl font-bold flex items-center justify-center gap-2",
   );
 
-  const variants = {
+  const variants: Record<NonNullable<Props["variant"]>, string> = {
     primary:
-      "bg-[var(--color-primary)] text-[var(--color-on-primary)] hover:bg-[var(--color-primary-hover)]",
-    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
-    danger: "bg-red-500 text-white hover:bg-red-600",
+      "grad-primary text-[var(--color-on-primary)] [box-shadow:0_8px_20px_rgba(var(--shadow-rgb),0.35),inset_0_1px_0_rgba(255,255,255,0.3)]",
+    secondary:
+      "bg-[var(--surface)] text-[var(--foreground)] border border-[var(--border-soft)] shadow-soft",
     outline:
-      "border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] bg-transparent",
+      "bg-[var(--surface)] text-[var(--color-primary)] border-[1.5px] border-[var(--color-primary)]/40",
+    ghost: "bg-transparent text-[var(--muted-fg)]",
+    danger: "bg-[var(--surface)] text-red-500 border border-red-300/50",
   };
 
   return (

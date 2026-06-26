@@ -1,6 +1,9 @@
 "use client";
 
+import ProgressBar from "@/components/ui/ProgressBar";
+
 type Props = {
+  name: string;
   section: {
     totalRows: number | null;
     completedRows: number;
@@ -8,30 +11,25 @@ type Props = {
   };
 };
 
-export default function SectionProgress({ section }: Props) {
-  const rowProgress = section.totalRows
-    ? Math.round((section.completedRows / section.totalRows) * 100)
+export default function SectionProgress({ name, section }: Props) {
+  const hasTotal = !!section.totalRows && section.totalRows > 0;
+  const pct = hasTotal
+    ? Math.round((section.completedRows / section.totalRows!) * 100)
     : null;
 
   return (
-    <div className="space-y-3 w-full">
-      <div className="text-sm text-[var(--color-foreground)]">
-        <p>
-          <strong>Filas:</strong>{" "}
-          {section.totalRows
-            ? `${section.completedRows} / ${section.totalRows} (${rowProgress}%)`
-            : `${section.completedRows} filas (modo libre)`}
-        </p>
+    <div className="w-full">
+      <div className="flex items-baseline gap-2.5">
+        <span className="text-[17px] font-bold text-[var(--foreground)]">
+          {name}
+        </span>
+        <span className="text-[13px] font-semibold text-[var(--muted-fg)]">
+          {hasTotal
+            ? `${section.completedRows} / ${section.totalRows} · ${pct}%`
+            : `${section.completedRows} filas · libre`}
+        </span>
       </div>
-
-      {rowProgress !== null && (
-        <div className="w-full h-4 bg-[var(--color-primary)]/20 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-[var(--color-primary)] transition-all duration-300"
-            style={{ width: `${rowProgress}%` }}
-          />
-        </div>
-      )}
+      {pct !== null && <ProgressBar value={pct} height={10} className="mt-2.5" />}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { getAllProjectsForUser } from "@/lib/actions/projectActions";
 import { getUserSession } from "@/lib/session";
 import ClientHome from "@/components/project/ClientHome";
+import Logo from "@/components/ui/Logo";
 import Link from "next/link";
 
 export default async function HomePage() {
@@ -8,32 +9,44 @@ export default async function HomePage() {
 
   if (!session?.user) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-6 gap-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-pink-500">Knitk Counter</h1>
-          <p className="text-gray-500 text-sm">Tu contador de filas de tejido</p>
+      <main className="relative flex min-h-screen flex-col items-center justify-between px-8 pb-12 pt-24 max-w-md mx-auto">
+        {/* glow detrás del logo */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2"
+          style={{
+            background:
+              "radial-gradient(circle, var(--halo), transparent 62%)",
+            opacity: 0.7,
+          }}
+        />
+
+        <div className="relative flex flex-1 flex-col items-center justify-center gap-6">
+          <Logo size={108} />
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold text-[var(--foreground)]">
+              Knitk Counter
+            </h1>
+            <p className="mt-1 text-[17px] font-medium text-[var(--muted-fg)]">
+              Tu contador de filas de tejido
+            </p>
+          </div>
         </div>
 
-        <div className="w-full max-w-xs flex flex-col gap-3">
+        <div className="relative w-full flex flex-col gap-3">
           <a
             href="/api/auth/signin/google"
-            className="flex items-center justify-center gap-3 w-full py-3 px-5 rounded-2xl bg-white border border-gray-200 shadow-md hover:shadow-lg active:scale-95 transition-all text-gray-700 font-semibold text-base"
+            className="flex h-[58px] items-center justify-center gap-3 rounded-[18px] knit-surface shadow-soft text-[17px] font-bold text-[var(--foreground)] active:scale-95 transition"
           >
             <GoogleIcon />
             Continuar con Google
           </a>
 
-          <div className="flex items-center gap-3">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">o</span>
-            <div className="flex-1 h-px bg-gray-200" />
-          </div>
-
           <Link
             href="/quick"
-            className="flex items-center justify-center gap-2 w-full py-3 px-5 rounded-2xl border border-pink-300 text-pink-500 font-semibold text-base hover:bg-pink-50 active:scale-95 transition-all"
+            className="flex h-[52px] items-center justify-center gap-2 text-base font-semibold text-[var(--color-primary)] active:scale-95 transition"
           >
-            ⚡ Contador rápido
+            <span className="font-display text-xl leading-none">+</span>
+            Contador rápido
           </Link>
         </div>
       </main>
@@ -48,7 +61,7 @@ export default async function HomePage() {
 
 function GoogleIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+    <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
       <path
         d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
         fill="#FFC107"

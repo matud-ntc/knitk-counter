@@ -10,7 +10,11 @@ type Props = {
   initialNotes: string;
 };
 
-export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }: Props) {
+export default function ProjectNotes({
+  sectionId,
+  revalidatePath,
+  initialNotes,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialNotes);
   const [saved, setSaved] = useState(false);
@@ -30,24 +34,31 @@ export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }
     }, 800);
   };
 
+  const hasNotes = value.trim().length > 0;
+
   return (
-    <div className="w-full">
+    <div className="w-full rounded-2xl knit-surface px-4 py-3 shadow-soft">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 text-sm font-semibold text-[var(--color-foreground)]/60 hover:text-[var(--color-foreground)] transition w-full"
+        className="flex w-full items-center gap-2"
       >
-        <motion.span
-          animate={{ rotate: open ? 90 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="inline-block"
-        >
-          ›
-        </motion.span>
-        Notas
-        {value.trim().length > 0 && !open && (
-          <span className="ml-auto w-2 h-2 rounded-full bg-[var(--color-primary)] opacity-70" />
+        <NoteIcon />
+        <span className="text-[13px] font-semibold uppercase tracking-wide text-[var(--muted-fg)]">
+          Notas de la sección
+        </span>
+        {hasNotes && !open && (
+          <span className="ml-auto mr-2 h-2 w-2 rounded-full bg-[var(--color-primary)]" />
         )}
+        <span className="ml-auto text-[13px] font-bold text-[var(--color-primary)]">
+          {open ? "Cerrar" : hasNotes ? "Editar" : "Agregar"}
+        </span>
       </button>
+
+      {!open && hasNotes && (
+        <p className="mt-2 line-clamp-2 text-[13px] leading-snug text-[var(--foreground)]/80">
+          {value}
+        </p>
+      )}
 
       <AnimatePresence initial={false}>
         {open && (
@@ -63,18 +74,17 @@ export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }
               <textarea
                 value={value}
                 onChange={handleChange}
-                placeholder="Notas de esta sección..."
-                className="w-full min-h-[120px] rounded-xl border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/5 px-3 py-2 text-base text-[var(--color-foreground)] placeholder:text-[var(--color-foreground)]/40 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/40 transition"
+                placeholder="Cambié a aguja 4 mm en la fila 30…"
+                className="min-h-[110px] w-full resize-none rounded-xl border-[1.5px] border-[var(--border-input)] bg-[var(--surface-2)] px-3 py-2.5 text-[var(--foreground)] placeholder:text-[var(--muted-fg)]/60 outline-none focus:border-[var(--color-primary)]"
                 style={{ fontSize: "16px" }}
               />
-              <div className="text-xs text-right mt-1 h-4 text-[var(--color-foreground)]/40">
+              <div className="mt-1 h-4 text-right text-xs text-[var(--muted-fg)]">
                 <AnimatePresence>
                   {saved && (
                     <motion.span
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
                     >
                       Guardado
                     </motion.span>
@@ -85,7 +95,7 @@ export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                     >
-                      Guardando...
+                      Guardando…
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -95,5 +105,25 @@ export default function ProjectNotes({ sectionId, revalidatePath, initialNotes }
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function NoteIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      className="text-[var(--muted-fg)]"
+    >
+      <path
+        d="M5 4h14v16l-5-3-5 3V4z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

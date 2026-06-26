@@ -1,216 +1,296 @@
 @import "tailwindcss";
 
+/* ════════════════════════════════════════════════════════════════════
+   Knitk Counter · sistema de diseño (rediseño 2026)
+   Tokens por tema. Todos los componentes leen de estas variables.
+   ════════════════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --color-on-primary: #fff;
-  font-family: var(--font-primary), sans-serif;
+  --font-sans: var(--font-primary), "Baloo 2", system-ui, sans-serif;
+  --font-display: var(--font-accent), "Fredoka", var(--font-primary), sans-serif;
+  font-family: var(--font-sans);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-primary);
 }
 
-/* 🎨 Tema por defecto: salmón (original, no se toca) */
+/* ── Texturas de lana ──────────────────────────────────────────────── */
+:root {
+  --tex-light: repeating-linear-gradient(
+      45deg,
+      rgba(150, 100, 75, 0.05) 0 1px,
+      transparent 1px 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(150, 100, 75, 0.05) 0 1px,
+      transparent 1px 7px
+    );
+  --tex-dark: repeating-linear-gradient(
+      45deg,
+      rgba(255, 236, 226, 0.04) 0 1px,
+      transparent 1px 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 236, 226, 0.04) 0 1px,
+      transparent 1px 7px
+    );
+}
+
+/* ── Tema Salmón (default · cálido claro) ──────────────────────────── */
 .theme-salmon {
-  --color-primary: #f97362;
-  --color-primary-hover: #f46351;
-  --color-on-primary: #fff;
-  --background: #fff;
-  --foreground: #171717;
+  --primary: #ee7b5f;
+  --color-primary: #ee7b5f;
+  --color-primary-hover: #e0644a;
+  --color-on-primary: #ffffff;
+  --grad-start: #f4895f;
+  --grad-end: #e0644a;
+  --btn-start: #f18a6b;
+  --btn-end: #ee7b5f;
+  --background: #faf3ec;
+  --foreground: #3a302b;
+  --surface: #ffffff;
+  --surface-2: #fbf1eb;
+  --border-soft: #f0e6de;
+  --border-input: #efe4db;
+  --muted-fg: #97877e;
+  --track: #f1e6dd;
+  --chip-bg: #fbe3da;
+  --chip-fg: #e0644a;
+  --halo: rgba(251, 201, 184, 0.85);
+  --shadow-rgb: 180, 120, 90;
+  --tex: var(--tex-light);
 }
 
-/* ── Catálogo (mismos temas que Hera/Tyche) ──────────────────────────── */
-
-/* ☀️ Claro neutro */
+/* ── Claro neutro · aireado ────────────────────────────────────────── */
 .theme-light {
-  --color-primary: oklch(0.205 0 0);
-  --color-primary-hover: oklch(0.3 0 0);
-  --color-on-primary: oklch(0.985 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --primary: #e58a6e;
+  --color-primary: #e58a6e;
+  --color-primary-hover: #d9785c;
+  --color-on-primary: #ffffff;
+  --grad-start: #ee9f84;
+  --grad-end: #e58a6e;
+  --btn-start: #ee9f84;
+  --btn-end: #e58a6e;
+  --background: #f5f2ee;
+  --foreground: #3a302b;
+  --surface: #ffffff;
+  --surface-2: #faf8f5;
+  --border-soft: #e8e3dd;
+  --border-input: #e2dcd4;
+  --muted-fg: #8a7f77;
+  --track: #eae4dd;
+  --chip-bg: #f1e7e1;
+  --chip-fg: #c9745a;
+  --halo: rgba(238, 159, 132, 0.55);
+  --shadow-rgb: 150, 120, 100;
+  --tex: var(--tex-light);
 }
 
-/* 🌙 Oscuro neutro */
+/* ── Oscuro · coral noche ──────────────────────────────────────────── */
 .theme-dark {
-  --color-primary: oklch(0.922 0 0);
-  --color-primary-hover: oklch(0.85 0 0);
-  --color-on-primary: oklch(0.205 0 0);
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --surface: oklch(0.205 0 0);
-  --surface-2: oklch(0.269 0 0);
-  --surface-3: oklch(0.32 0 0);
-  --muted-fg: oklch(0.708 0 0);
-  --border-soft: oklch(0.3 0 0);
+  --primary: #f4855f;
+  --color-primary: #f4855f;
+  --color-primary-hover: #f4895f;
+  --color-on-primary: #ffffff;
+  --grad-start: #f4895f;
+  --grad-end: #e0644a;
+  --btn-start: #f18a6b;
+  --btn-end: #ee7b5f;
+  --background: #211b19;
+  --foreground: #f3e9e2;
+  --surface: #2c2422;
+  --surface-2: #342a27;
+  --border-soft: #3c312d;
+  --border-input: #3c312d;
+  --muted-fg: #b0a099;
+  --track: #3a2f2b;
+  --chip-bg: #3a2a24;
+  --chip-fg: #f4855f;
+  --halo: rgba(244, 133, 95, 0.4);
+  --shadow-rgb: 0, 0, 0;
+  --tex: var(--tex-dark);
 }
 
-/* ☕ Catppuccin Mocha */
+/* ── Mocha · azul pastel sobre madera ──────────────────────────────── */
 .theme-mocha {
-  --color-primary: #89b4fa;
-  --color-primary-hover: #a6c8ff;
-  --color-on-primary: #11111b;
-  --background: #1e1e2e;
-  --foreground: #cdd6f4;
-  --surface: #181825;
-  --surface-2: #313244;
-  --surface-3: #45475a;
-  --muted-fg: #a6adc8;
-  --border-soft: #313244;
+  --primary: #93b4d6;
+  --color-primary: #93b4d6;
+  --color-primary-hover: #a7c4e0;
+  --color-on-primary: #1b232e;
+  --grad-start: #a7c4e0;
+  --grad-end: #93b4d6;
+  --btn-start: #a7c4e0;
+  --btn-end: #93b4d6;
+  --background: #2b2622;
+  --foreground: #ede3da;
+  --surface: #372f2a;
+  --surface-2: #41372f;
+  --border-soft: #423a33;
+  --border-input: #423a33;
+  --muted-fg: #b0a099;
+  --track: #41372f;
+  --chip-bg: #34404d;
+  --chip-fg: #93b4d6;
+  --halo: rgba(147, 180, 214, 0.34);
+  --shadow-rgb: 0, 0, 0;
+  --tex: var(--tex-dark);
 }
 
-/* ❄️ Nord */
+/* ── Nord · celeste ────────────────────────────────────────────────── */
 .theme-nord {
+  --primary: #88c0d0;
   --color-primary: #88c0d0;
-  --color-primary-hover: #a3d0dd;
+  --color-primary-hover: #9fcfdc;
   --color-on-primary: #1c2530;
+  --grad-start: #9fcfdc;
+  --grad-end: #88c0d0;
+  --btn-start: #9fcfdc;
+  --btn-end: #88c0d0;
   --background: #2e3440;
   --foreground: #eceff4;
-  --surface: #2b313c;
-  --surface-2: #3b4252;
-  --surface-3: #434c5e;
-  --muted-fg: #d8dee9;
-  --border-soft: #3b4252;
+  --surface: #3b4252;
+  --surface-2: #434c5e;
+  --border-soft: #434c5e;
+  --border-input: #434c5e;
+  --muted-fg: #9aa6bb;
+  --track: #434c5e;
+  --chip-bg: #3f4d5c;
+  --chip-fg: #88c0d0;
+  --halo: rgba(136, 192, 208, 0.32);
+  --shadow-rgb: 0, 0, 0;
+  --tex: var(--tex-dark);
 }
 
-/* 🌹 Rosé Pine */
+/* ── Rosé Pine · lila ──────────────────────────────────────────────── */
 .theme-rose {
+  --primary: #c4a7e7;
   --color-primary: #c4a7e7;
   --color-primary-hover: #d4bef0;
   --color-on-primary: #16141f;
+  --grad-start: #d4bef0;
+  --grad-end: #c4a7e7;
+  --btn-start: #d4bef0;
+  --btn-end: #c4a7e7;
   --background: #191724;
   --foreground: #e0def4;
-  --surface: #1f1d2e;
-  --surface-2: #26233a;
-  --surface-3: #2a2837;
-  --muted-fg: #908caa;
-  --border-soft: #2a2837;
+  --surface: #26233a;
+  --surface-2: #2a2837;
+  --border-soft: #2a2740;
+  --border-input: #2a2740;
+  --muted-fg: #a59fc4;
+  --track: #2a2837;
+  --chip-bg: #2f2a45;
+  --chip-fg: #c4a7e7;
+  --halo: rgba(196, 167, 231, 0.32);
+  --shadow-rgb: 0, 0, 0;
+  --tex: var(--tex-light);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-primary), sans-serif;
+  font-family: var(--font-sans);
 }
 
-/* Tema salmon */
-.theme-salmon .card-bg-0 {
-  background-color: #ffe3e0;
-}
-.theme-salmon .card-bg-1 {
-  background-color: #fff5dc;
-}
-.theme-salmon .card-bg-2 {
-  background-color: #e0f4f1;
-}
-.theme-salmon .card-bg-3 {
-  background-color: #f4e4f9;
+/* Fondo sólido (sin textura de lana). */
+.lana-bg {
+  background-color: var(--background);
 }
 
-/* Tema light */
-.theme-light .card-bg-0 {
-  background-color: oklch(0.985 0 0);
-}
-.theme-light .card-bg-1 {
-  background-color: oklch(0.97 0 0);
-}
-.theme-light .card-bg-2 {
-  background-color: oklch(0.95 0 0);
-}
-.theme-light .card-bg-3 {
-  background-color: oklch(0.93 0 0);
+/* ── Utilidades semánticas ─────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
 }
 
-/* Tema dark */
-.theme-dark .card-bg-0 {
-  background-color: oklch(0.205 0 0);
-}
-.theme-dark .card-bg-1 {
-  background-color: oklch(0.269 0 0);
-}
-.theme-dark .card-bg-2 {
-  background-color: oklch(0.32 0 0);
-}
-.theme-dark .card-bg-3 {
-  background-color: oklch(0.37 0 0);
-}
-
-/* Tema mocha */
-.theme-mocha .card-bg-0 {
-  background-color: #181825;
-}
-.theme-mocha .card-bg-1 {
-  background-color: #313244;
-}
-.theme-mocha .card-bg-2 {
-  background-color: #45475a;
-}
-.theme-mocha .card-bg-3 {
-  background-color: #585b70;
-}
-
-/* Tema nord */
-.theme-nord .card-bg-0 {
-  background-color: #2b313c;
-}
-.theme-nord .card-bg-1 {
-  background-color: #3b4252;
-}
-.theme-nord .card-bg-2 {
-  background-color: #434c5e;
-}
-.theme-nord .card-bg-3 {
-  background-color: #4c566a;
-}
-
-/* Tema rose */
-.theme-rose .card-bg-0 {
-  background-color: #1f1d2e;
-}
-.theme-rose .card-bg-1 {
-  background-color: #26233a;
-}
-.theme-rose .card-bg-2 {
-  background-color: #2a2837;
-}
-.theme-rose .card-bg-3 {
-  background-color: #403d52;
-}
-
-.card-bg-0,
-.card-bg-1,
-.card-bg-2,
-.card-bg-3 {
-  color: var(--color-foreground);
-}
-
-/* ── Legibilidad de los temas oscuros del catálogo ──────────────────────
-   Varios componentes tienen grises/blancos hardcodeados (pensados para
-   fondos claros). Solo dentro de los temas oscuros remapeamos esas
-   utilidades a las superficies del tema. Salmón y light quedan intactos. */
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
-  :is(.bg-white, .bg-gray-50, .bg-gray-100) {
+.knit-surface {
   background-color: var(--surface);
+  border: 1px solid var(--border-soft);
 }
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose) .bg-gray-200 {
-  background-color: var(--surface-2);
+
+.shadow-soft {
+  box-shadow: 0 4px 12px rgba(var(--shadow-rgb), 0.08);
 }
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
-  :is(.hover\:bg-gray-200:hover, .hover\:bg-gray-300:hover) {
-  background-color: var(--surface-3);
+.shadow-card {
+  box-shadow: 0 8px 22px rgba(var(--shadow-rgb), 0.12);
 }
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
-  :is(.text-gray-900, .text-gray-800, .text-gray-700) {
-  color: var(--foreground);
+.shadow-float {
+  box-shadow: 0 18px 40px rgba(var(--shadow-rgb), 0.22);
 }
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
-  :is(.text-gray-600, .text-gray-500, .text-gray-400) {
-  color: var(--muted-fg);
+
+.grad-primary {
+  background-image: linear-gradient(180deg, var(--btn-start), var(--btn-end));
 }
-:is(.theme-dark, .theme-mocha, .theme-nord, .theme-rose)
-  :is(.border-gray-100, .border-gray-200, .border-gray-300) {
-  border-color: var(--border-soft);
+.grad-counter {
+  background-image: linear-gradient(180deg, var(--grad-start), var(--grad-end));
+}
+.grad-bar {
+  background-image: linear-gradient(90deg, var(--grad-start), var(--btn-end));
+}
+
+/* ── Animaciones del contador héroe ────────────────────────────────── */
+@keyframes haloBreath {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.09);
+    opacity: 0.78;
+  }
+}
+
+@keyframes ringPulse {
+  from {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes popNum {
+  0% {
+    transform: scale(1.22);
+  }
+  60% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.halo-breath {
+  animation: haloBreath 2.8s ease-in-out infinite;
+}
+.ring-pulse {
+  animation: ringPulse 0.64s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+.pop-num {
+  animation: popNum 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo-breath,
+  .ring-pulse,
+  .pop-num {
+    animation: none !important;
+  }
+}
+
+/* Oculta scrollbars en carruseles de chips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
