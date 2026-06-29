@@ -95,6 +95,12 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
           >
             Rápido
           </Link>
+          <Link
+            href="/watch"
+            className="rounded-2xl knit-surface px-4 py-2.5 text-sm font-semibold text-[var(--muted-fg)] active:scale-95 transition"
+          >
+            Watch
+          </Link>
         </div>
       )}
 
