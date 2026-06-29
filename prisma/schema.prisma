@@ -23,6 +23,29 @@ model User {
   projects      Project[]
   accounts      Account[]
   sessions      Session[]
+  watchCodes    WatchPairingCode[]
+  watchTokens   WatchToken[]
+}
+
+/// Código corto (6 dígitos) que muestra la web para emparejar el Apple Watch.
+/// El Watch lo canjea por un WatchToken. De un solo uso y con vencimiento.
+model WatchPairingCode {
+  code      String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+/// Token de larga duración que usa el Watch para autenticarse contra la API.
+/// Se guarda hasheado (sha256); el valor en claro solo lo tiene el reloj.
+model WatchToken {
+  id         String    @id @default(cuid())
+  tokenHash  String    @unique
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
 }
 
 model Account {
