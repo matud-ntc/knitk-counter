@@ -76,7 +76,7 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
 
       {/* ── Navegación ─────────────────────────────────────────── */}
       {!showCompleted && (
-        <div className="flex gap-2.5 pb-4">
+        <div className="flex flex-wrap gap-2.5 pb-4">
           <Link
             href="/new"
             className="grad-primary flex items-center gap-1.5 rounded-2xl px-4 py-2.5 text-sm font-bold text-[var(--color-on-primary)] [box-shadow:0_6px_14px_rgba(var(--shadow-rgb),0.4)] active:scale-95 transition"
@@ -91,9 +91,9 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
           </Link>
           <Link
             href="/quick"
-            className="rounded-2xl knit-surface px-4 py-2.5 text-sm font-semibold text-[var(--muted-fg)] active:scale-95 transition"
+            className="whitespace-nowrap rounded-2xl knit-surface px-4 py-2.5 text-sm font-semibold text-[var(--muted-fg)] active:scale-95 transition"
           >
-            Rápido
+            Contador rápido
           </Link>
         </div>
       )}
