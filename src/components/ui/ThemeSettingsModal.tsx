@@ -50,11 +50,7 @@ export default function ThemeSettingsModal({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  const handleDelete = async () => {
-    if (!confirmDelete) {
-      setConfirmDelete(true);
-      return;
-    }
+  const confirmDeleteNow = async () => {
     setDeleting(true);
     try {
       const res = await deleteAccount();
@@ -235,24 +231,51 @@ export default function ThemeSettingsModal({
           </a>
 
           <button
-            onClick={handleDelete}
-            disabled={deleting}
-            className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#d33]/40 px-4 py-3 text-sm font-bold text-[#d33] active:scale-95 transition disabled:opacity-60"
+            onClick={() => setConfirmDelete(true)}
+            className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#d33]/40 px-4 py-3 text-sm font-bold text-[#d33] active:scale-95 transition"
           >
-            {deleting && <Spinner />}
-            {deleting
-              ? "Eliminando…"
-              : confirmDelete
-              ? "Tocá de nuevo para confirmar"
-              : "Eliminar cuenta"}
+            Eliminar cuenta
           </button>
-          {confirmDelete && !deleting && (
-            <p className="mt-1.5 text-center text-xs font-medium text-[var(--muted-fg)]">
-              Se borran tu cuenta y todos tus proyectos. No se puede deshacer.
-            </p>
-          )}
         </section>
       </div>
+
+      {/* Alert custom de confirmación (con nuestros colores) */}
+      {confirmDelete && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-6">
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => !deleting && setConfirmDelete(false)}
+          />
+          <div className="relative w-full max-w-sm rounded-3xl border border-[var(--border-soft)] bg-[var(--surface)] p-6 text-center shadow-float">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#d33]/12 text-[#d33]">
+              <TrashIcon />
+            </div>
+            <h3 className="text-lg font-bold text-[var(--foreground)]">
+              ¿Eliminar cuenta?
+            </h3>
+            <p className="mt-1.5 text-sm font-medium text-[var(--muted-fg)]">
+              Se borran tu cuenta y todos tus proyectos. No se puede deshacer.
+            </p>
+            <div className="mt-5 flex gap-3">
+              <button
+                onClick={() => setConfirmDelete(false)}
+                disabled={deleting}
+                className="flex-1 rounded-2xl knit-surface py-3 text-sm font-bold text-[var(--foreground)] active:scale-95 transition disabled:opacity-60"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDeleteNow}
+                disabled={deleting}
+                className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[#d33] py-3 text-sm font-bold text-white active:scale-95 transition disabled:opacity-70"
+              >
+                {deleting && <Spinner />}
+                {deleting ? "Eliminando…" : "Eliminar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Modal>
   );
 }
@@ -283,6 +306,20 @@ function Divider() {
 function Spinner() {
   return (
     <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m2 0v12a1 1 0 01-1 1H7a1 1 0 01-1-1V7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
