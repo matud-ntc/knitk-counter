@@ -5,9 +5,23 @@ import AppleProvider from "next-auth/providers/apple";
 import { prisma } from "./prisma";
 
 const appleEnabled = !!(process.env.APPLE_ID && process.env.APPLE_SECRET);
+const prod = process.env.NODE_ENV === "production";
+
+// Apple responde con un POST cross-site (response_mode=form_post). Con SameSite=Lax
+// el navegador no manda las cookies del flujo (pkce/state/nonce) en ese POST y el
+// login falla. Por eso, en producción, esas cookies van con SameSite=None; Secure.
+const crossSite = { httpOnly: true, sameSite: "none" as const, path: "/", secure: true };
+const appleCookies = prod
+  ? {
+      pkceCodeVerifier: { name: "__Secure-next-auth.pkce.code_verifier", options: crossSite },
+      state: { name: "__Secure-next-auth.state", options: crossSite },
+      nonce: { name: "__Secure-next-auth.nonce", options: crossSite },
+    }
+  : undefined;
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
+  cookies: appleCookies,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
