@@ -46,6 +46,25 @@ export default function ThemeSettingsModal({
     applyTheme(value);
   };
 
+  const [watchCode, setWatchCode] = useState<string | null>(null);
+  const [watchLoading, setWatchLoading] = useState(false);
+  const [watchError, setWatchError] = useState<string | null>(null);
+
+  const generateWatchCode = async () => {
+    setWatchLoading(true);
+    setWatchError(null);
+    try {
+      const res = await fetch("/api/watch/pair", { method: "POST" });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setWatchCode(data.code as string);
+    } catch {
+      setWatchError("No se pudo generar el código. Probá de nuevo.");
+    } finally {
+      setWatchLoading(false);
+    }
+  };
+
   return (
     <Modal open={open} onClose={onClose} title="Ajustes">
       <div className="space-y-6">
@@ -132,6 +151,50 @@ export default function ThemeSettingsModal({
           </div>
         </section>
 
+        {/* Apple Watch */}
+        <section>
+          <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.1em] text-[var(--muted-fg)]">
+            Apple Watch
+          </h4>
+          <div className="rounded-2xl knit-surface p-4 shadow-soft">
+            {watchCode ? (
+              <div className="flex flex-col items-center gap-1 text-center">
+                <span className="text-xs font-medium text-[var(--muted-fg)]">
+                  Escribí este código en el reloj
+                </span>
+                <span className="font-display text-4xl font-extrabold tracking-[0.18em] text-[var(--foreground)]">
+                  {watchCode}
+                </span>
+                <span className="text-xs font-medium text-[var(--muted-fg)]">
+                  Vence en 10 min · de un solo uso
+                </span>
+                <button
+                  onClick={generateWatchCode}
+                  disabled={watchLoading}
+                  className="mt-1 flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] disabled:opacity-60"
+                >
+                  {watchLoading && <Spinner />}
+                  {watchLoading ? "Generando…" : "Generar otro"}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={generateWatchCode}
+                disabled={watchLoading}
+                className="grad-primary flex h-[50px] w-full items-center justify-center gap-2 rounded-[16px] text-[15px] font-bold text-[var(--color-on-primary)] shadow-soft active:scale-95 transition disabled:opacity-70"
+              >
+                {watchLoading && <Spinner />}
+                {watchLoading ? "Generando…" : "Generar código para el Watch"}
+              </button>
+            )}
+            {watchError && (
+              <p className="mt-2 text-center text-sm font-medium text-[var(--color-primary)]">
+                {watchError}
+              </p>
+            )}
+          </div>
+        </section>
+
         {/* Cuenta */}
         <section>
           <a
@@ -175,6 +238,12 @@ function Row({
 
 function Divider() {
   return <div className="mx-4 h-px bg-[var(--border-soft)]" />;
+}
+
+function Spinner() {
+  return (
+    <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+  );
 }
 
 function CheckSmall() {
