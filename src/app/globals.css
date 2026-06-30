@@ -195,6 +195,9 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  /* Respetar el notch / Dynamic Island en el WebView y la PWA. */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* Fondo sólido (sin textura de lana). */
