@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Modal from "@/components/ui/Modal";
 import Toggle from "@/components/ui/Toggle";
 import { useCounterSettings } from "@/lib/clientSettings";
+import { deleteAccount } from "@/lib/actions/deleteAccount";
 
 const THEMES = [
   { value: "theme-salmon", label: "Salmón", bg: "#FAF3EC", surface: "#FFFFFF", accent: "#EE7B5F", color: "#3A302B" },
@@ -44,6 +45,27 @@ export default function ThemeSettingsModal({
   const pick = (value: string) => {
     setSelected(value);
     applyTheme(value);
+  };
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!confirmDelete) {
+      setConfirmDelete(true);
+      return;
+    }
+    setDeleting(true);
+    try {
+      const res = await deleteAccount();
+      if (res.ok) {
+        window.location.href = "/api/auth/signout?callbackUrl=/";
+      } else {
+        setDeleting(false);
+      }
+    } catch {
+      setDeleting(false);
+    }
   };
 
   const [watchCode, setWatchCode] = useState<string | null>(null);
@@ -211,6 +233,24 @@ export default function ThemeSettingsModal({
               Salir
             </span>
           </a>
+
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="mt-2.5 flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#d33]/40 px-4 py-3 text-sm font-bold text-[#d33] active:scale-95 transition disabled:opacity-60"
+          >
+            {deleting && <Spinner />}
+            {deleting
+              ? "Eliminando…"
+              : confirmDelete
+              ? "Tocá de nuevo para confirmar"
+              : "Eliminar cuenta"}
+          </button>
+          {confirmDelete && !deleting && (
+            <p className="mt-1.5 text-center text-xs font-medium text-[var(--muted-fg)]">
+              Se borran tu cuenta y todos tus proyectos. No se puede deshacer.
+            </p>
+          )}
         </section>
       </div>
     </Modal>
