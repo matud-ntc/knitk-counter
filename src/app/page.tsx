@@ -9,7 +9,7 @@ export default async function HomePage() {
 
   if (!session?.user) {
     return (
-      <main className="relative flex min-h-screen flex-col items-center justify-between px-8 pb-12 pt-24 max-w-md mx-auto">
+      <main className="relative flex min-h-screen flex-col items-center justify-between px-8 pb-12 pt-[max(6rem,calc(env(safe-area-inset-top)_+_1rem))] max-w-md mx-auto">
         {/* glow detrás del logo */}
         <div
           className="pointer-events-none absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2"

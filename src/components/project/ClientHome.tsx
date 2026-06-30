@@ -33,7 +33,7 @@ export default function ClientHome({ projects, showCompleted = false }: Props) {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <main className="relative mx-auto flex min-h-screen max-w-md flex-col px-5 pb-28 pt-14">
+    <main className="relative mx-auto flex min-h-screen max-w-md flex-col px-5 pb-28 pt-[max(3.5rem,calc(env(safe-area-inset-top)_+_0.5rem))]">
       {/* ── Encabezado ─────────────────────────────────────────── */}
       {showCompleted ? (
         <div className="flex items-center gap-4 pb-5">

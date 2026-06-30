@@ -37,7 +37,7 @@ export default async function Page(props: any) {
   const revalidatePath = `/project/${params.id}`;
 
   return (
-    <main className="mx-auto flex h-[100dvh] max-w-md flex-col overflow-hidden px-5 pb-4 pt-12">
+    <main className="mx-auto flex h-[100dvh] max-w-md flex-col overflow-hidden px-5 pt-[max(3rem,calc(env(safe-area-inset-top)_+_0.5rem))] pb-[max(1rem,env(safe-area-inset-bottom))]">
       <ProjectHeader
         projectId={project.id}
         projectName={project.name}

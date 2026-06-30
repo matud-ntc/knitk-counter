@@ -55,7 +55,7 @@ export default function ProjectForm() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 pb-28 pt-14">
+    <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 pb-28 pt-[max(3.5rem,calc(env(safe-area-inset-top)_+_0.5rem))]">
       <div className="flex items-center gap-3.5 pb-5">
         <Link
           href="/"

@@ -33,7 +33,7 @@ export default function QuickCounterPage() {
   if (!mounted) return null;
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col px-6 pb-10 pt-14">
+    <main className="mx-auto flex min-h-screen max-w-md flex-col px-6 pb-10 pt-[max(3.5rem,calc(env(safe-area-inset-top)_+_0.5rem))]">
       <div className="flex items-center justify-between">
         <Link
           href="/"
